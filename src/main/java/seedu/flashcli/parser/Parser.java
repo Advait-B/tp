@@ -142,6 +142,11 @@ public class Parser {
         String deck = arguments.substring(deckIdx + PREFIX_LEN, indexIdx).trim();
         String index = arguments.substring(indexIdx + PREFIX_LEN).trim();
         requireNonEmpty(deck, index);
+        try {
+            Integer.parseInt(index);
+        } catch (NumberFormatException e) {
+            throw new FlashException(ErrorType.INVALID_INDEX);
+        }
     }
 
     // Ensures the d/ prefix is contained, and non-empty deck name
@@ -192,7 +197,7 @@ public class Parser {
 
     // Ensures each string passed in non-empty
     private void requireEmptyArgs(String args) throws FlashException {
-        if (!(args == null)) {
+        if (args == null || args.trim().isEmpty()) {
             throw new FlashException(ErrorType.UNEXPECTED_ARGUMENTS);
         }
     }
