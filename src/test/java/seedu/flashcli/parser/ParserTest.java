@@ -183,5 +183,24 @@ public class ParserTest {
         assertDoesNotThrow(() -> new Parser("listDecks xyz"));
         assertDoesNotThrow(() -> new Parser("listDecks    "));
     }
+
+    // clearDeck Tests
+
+    @Test
+    void clearDeck_valid_doesNotThrow() {
+        assertDoesNotThrow(() -> new Parser("clearDeck d/Math"));
+    }
+
+    @Test
+    void clearDeck_missingDeckPrefix_throwsMissingDeck() {
+        FlashException e = assertThrows(FlashException.class, () -> new Parser("clearDeck Math"));
+        assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
+    }
+
+    @Test
+    void clearDeck_emptyDeckName_throwsArgumentMissing() {
+        FlashException e = assertThrows(FlashException.class, () -> new Parser("clearDeck d/"));
+        assertEquals(ErrorType.ARGUMENT_MISSING, e.getErrorType());
+    }
     
 }
