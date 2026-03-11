@@ -13,7 +13,8 @@ public enum ErrorType {
     MISSING_INDEX("Card index is required. Use prefix i/."),
     DUPLICATE_PREFIX("Duplicate prefixes detected. Each prefix should appear only once."),
     INVALID_ADD_CARD("Invalid format for addCard.\nUse: addCard d/<deck> q/<question> a/<answer>"),
-    INVALID_DELETE_CARD("Invalid format for deleteCard.\nUse: deleteCard d/<deck> i/<index>");
+    INVALID_DELETE_CARD("Invalid format for deleteCard.\nUse: deleteCard d/<deck> i/<index>"),
+    INVALID_INDEX("Input an integer index number.");
 
     private final String message;
 
