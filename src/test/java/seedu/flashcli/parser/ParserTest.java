@@ -115,5 +115,45 @@ public class ParserTest {
         FlashException e = assertThrows(FlashException.class, () -> new Parser("listCards d/"));
         assertEquals(ErrorType.ARGUMENT_MISSING, e.getErrorType());
     }
-    
+
+    // deleteCard Tests
+
+    @Test
+    void deleteCard_valid_doesNotThrow() {
+        assertDoesNotThrow(() -> new Parser("deleteCard d/Math i/1"));
+    }
+
+    @Test
+    void deleteCard_missingDeckPrefix_throwsMissingDeck() {
+        FlashException e = assertThrows(FlashException.class, () -> new Parser("deleteCard i/1"));
+        assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
+    }
+
+    @Test
+    void deleteCard_missingIndexPrefix_throwsMissingIndex() {
+        FlashException e = assertThrows(FlashException.class, () -> new Parser("deleteCard d/Math"));
+        assertEquals(ErrorType.MISSING_INDEX, e.getErrorType());
+    }
+
+    @Test
+    void deleteCard_wrongPrefixOrder_throwsInvalidDeleteCard() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> new Parser("deleteCard i/1 d/Math"));
+        assertEquals(ErrorType.INVALID_DELETE_CARD, e.getErrorType());
+    }
+
+    @Test
+    void deleteCard_nonIntegerIndex_throwsInvalidIndex() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> new Parser("deleteCard d/Math i/abc"));
+        assertEquals(ErrorType.INVALID_INDEX, e.getErrorType());
+    }
+
+    @Test
+    void deleteCard_emptyIndex_throwsArgumentMissing() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> new Parser("deleteCard d/Math i/"));
+        assertEquals(ErrorType.ARGUMENT_MISSING, e.getErrorType());
+    }
+
 }
