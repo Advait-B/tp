@@ -1,6 +1,5 @@
 package seedu.flashcli.command;
 
-import seedu.flashcli.command.Command;
 import seedu.flashcli.deck.DeckManager;
 
 public class ExitCommand implements Command {

@@ -16,6 +16,9 @@ public class StudyCommand implements Command {
 
     public boolean execute(DeckManager deckManager) {
         Deck deck = deckManager.getDeck(deckName);
+        if (deck == null) {
+            return false;
+        }
         StudySession studySession = new StudySession(deck);
         studySession.start();
         boolean showQn = false; //tells program to show qn if true, ans if false

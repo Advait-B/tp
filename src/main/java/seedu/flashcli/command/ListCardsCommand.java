@@ -12,6 +12,9 @@ public class ListCardsCommand implements Command {
     @Override
     public boolean execute(DeckManager deckManager) {
         Deck deck = deckManager.getDeck(deckName);
+        if (deck == null) {
+            return false;
+        }
         deck.listCards();
         return false;
     }

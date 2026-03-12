@@ -1,6 +1,12 @@
 package seedu.flashcli.parser;
 
-import seedu.flashcli.command.*;
+import seedu.flashcli.command.AddCardCommand;
+import seedu.flashcli.command.Command;
+import seedu.flashcli.command.CreateDeckCommand;
+import seedu.flashcli.command.DeleteCardCommand;
+import seedu.flashcli.command.ExitCommand;
+import seedu.flashcli.command.ListCardsCommand;
+import seedu.flashcli.command.StudyCommand;
 import seedu.flashcli.deck.DeckManager;
 import seedu.flashcli.exception.ErrorType;
 import seedu.flashcli.exception.FlashException;
@@ -20,12 +26,14 @@ public class Parser {
     private static final String QUESTION_PREFIX = "q/";
     private static final String ANSWER_PREFIX = "a/";
     private static final String INDEX_PREFIX = "i/";
-    private DeckManager deckManager = new DeckManager();
+
 
     private static final int PREFIX_LEN = 2;
 
     protected String command;
     protected String arguments;
+
+    private DeckManager deckManager = new DeckManager();
 
     /**
      * The input is split into its command and arguments.
