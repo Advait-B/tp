@@ -1,10 +1,10 @@
 package seedu.flashcli.command;
 
 import org.junit.jupiter.api.Test;
-import seedu.flashcli.deck.Deck;
 import seedu.flashcli.deck.DeckManager;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class AddCardCommandTest {
 
