@@ -8,13 +8,14 @@ import java.util.Scanner;
 
 public class StudyCommand implements Command {
     private Scanner in = new Scanner(System.in);
-    private Deck deck;
+    private String deckName;
 
-    public StudyCommand(Deck deck) {
-        this.deck = deck;
+    public StudyCommand(String deckName) {
+        this.deckName = deckName;
     }
 
     public boolean execute(DeckManager deckManager) {
+        Deck deck = deckManager.getDeck(deckName);
         StudySession studySession = new StudySession(deck);
         studySession.start();
         boolean showQn = false; //tells program to show qn if true, ans if false

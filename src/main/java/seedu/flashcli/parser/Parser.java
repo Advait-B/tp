@@ -1,5 +1,7 @@
 package seedu.flashcli.parser;
 
+import seedu.flashcli.command.*;
+import seedu.flashcli.deck.DeckManager;
 import seedu.flashcli.exception.ErrorType;
 import seedu.flashcli.exception.FlashException;
 
@@ -18,6 +20,7 @@ public class Parser {
     private static final String QUESTION_PREFIX = "q/";
     private static final String ANSWER_PREFIX = "a/";
     private static final String INDEX_PREFIX = "i/";
+    private DeckManager deckManager;
 
     private static final int PREFIX_LEN = 2;
 
@@ -31,7 +34,8 @@ public class Parser {
      * @param userInput the raw input string entered by the user
      * @throws FlashException if the input is null or blank, or if the command is not valid
      */
-    public Parser(String userInput) throws FlashException {
+    public Parser(String userInput, DeckManager deckManager) throws FlashException {
+        this.deckManager = deckManager;
         validateInput(userInput);
         String[] words = userInput.split(" ", 2);
         command = words[0].trim();
@@ -122,6 +126,8 @@ public class Parser {
         String question = arguments.substring(questionIdx + PREFIX_LEN, answerIdx).trim();
         String answer = arguments.substring(answerIdx + PREFIX_LEN).trim();
         requireNonEmpty(deck, question, answer);
+        Command command = new AddCardCommand(deck, question, answer);
+        command.execute(deckManager);
     }
 
     // Ensures the d/ prefix, and non-empty deck name
@@ -129,6 +135,9 @@ public class Parser {
         validatePrefixes(arguments, DECK_PREFIX);
         String deck = arguments.substring(arguments.indexOf(DECK_PREFIX) + PREFIX_LEN).trim();
         requireNonEmpty(deck);
+        Command command = new ListCardsCommand(deck);
+        command.execute(deckManager);
+
     }
 
     // Ensures the d/ and i/ prefixes are contained in the right order, and non-empty descriptions
@@ -140,13 +149,16 @@ public class Parser {
             throw new FlashException(ErrorType.INVALID_DELETE_CARD);
         }
         String deck = arguments.substring(deckIdx + PREFIX_LEN, indexIdx).trim();
-        String index = arguments.substring(indexIdx + PREFIX_LEN).trim();
-        requireNonEmpty(deck, index);
+        String indexString = arguments.substring(indexIdx + PREFIX_LEN).trim();
+        requireNonEmpty(deck, indexString);
+        int index;
         try {
-            Integer.parseInt(index);
+            index = Integer.parseInt(indexString);
         } catch (NumberFormatException e) {
             throw new FlashException(ErrorType.INVALID_INDEX);
         }
+        Command command = new DeleteCardCommand(deck, index);
+        command.execute(deckManager);
     }
 
     // Ensures the d/ prefix is contained, and non-empty deck name
@@ -154,6 +166,9 @@ public class Parser {
         validatePrefixes(arguments, DECK_PREFIX);
         String deck = arguments.substring(arguments.indexOf(DECK_PREFIX) + PREFIX_LEN).trim();
         requireNonEmpty(deck);
+        Command command = new CreateDeckCommand(deck);
+        command.execute(deckManager);
+
     }
 
     // Ensures the d/ prefix is contained, and non-empty deck name
@@ -161,6 +176,7 @@ public class Parser {
         validatePrefixes(arguments, DECK_PREFIX);
         String deck = arguments.substring(arguments.indexOf(DECK_PREFIX) + PREFIX_LEN).trim();
         requireNonEmpty(deck);
+
     }
 
     // Ensures the d/ prefix is contained, and non-empty deck name
@@ -168,6 +184,8 @@ public class Parser {
         validatePrefixes(arguments, DECK_PREFIX);
         String deck = arguments.substring(arguments.indexOf(DECK_PREFIX) + PREFIX_LEN).trim();
         requireNonEmpty(deck);
+        Command command = new StudyCommand(deck);
+        command.execute(deckManager);
     }
 
     private void parseNextCardCommand(String arguments) throws FlashException {
@@ -180,6 +198,9 @@ public class Parser {
 
     private void parseExitCommand(String arguments) throws FlashException {
         requireEmptyArgs(arguments);
+        Command command = new ExitCommand();
+        command.execute(deckManager);
+
     }
 
     private void parseHelpCommand(String arguments) throws FlashException {
