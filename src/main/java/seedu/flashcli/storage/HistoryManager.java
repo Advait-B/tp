@@ -22,13 +22,14 @@ import java.util.stream.Collectors;
  * Provides functionality to save, retrieve, and clean up historical versions.
  */
 public class HistoryManager {
+    private static final DateTimeFormatter TIMESTAMP_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
     private final Path dataDir;
     private final Path historyDir;
     private final Path wasteDir;
     private final String baseFileName;
     private final Gson gson;
-    private static final DateTimeFormatter TIMESTAMP_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+
 
     /**
      * Constructs a HistoryManager for the given data directory and base file name.
