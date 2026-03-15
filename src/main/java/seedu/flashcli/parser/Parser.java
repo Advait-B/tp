@@ -225,7 +225,7 @@ public class Parser {
 
     // Ensures each string passed in non-empty
     private void requireEmptyArgs(String args) throws FlashException {
-        if (args == null || args.trim().isEmpty()) {
+        if (args != null && !args.trim().isEmpty()) {
             throw new FlashException(ErrorType.UNEXPECTED_ARGUMENTS);
         }
     }
