@@ -31,8 +31,8 @@ public class Parser {
 
     public static Command parse(String userInput) throws FlashException {
         validateInput(userInput);
-        String[] tokens  = userInput.split(" ", 2);
-        String command   = tokens[0].trim();
+        String[] tokens = userInput.split(" ", 2);
+        String command = tokens[0].trim();
         String arguments = tokens.length > 1 ? tokens[1].trim() : "";
         validateCommandName(command);
         return dispatch(command, arguments);
