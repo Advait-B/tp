@@ -73,17 +73,13 @@ public class Parser {
         case "study":
             return parseStudyCommand(arguments);
         case "nextCard":
-            requireEmptyArgs(arguments);
-            return new NextCardCommand();
+            return requireEmpty(arguments, new NextCardCommand());
         case "finish":
-            requireEmptyArgs(arguments);
-            return new FinishCommand();
+            return requireEmpty(arguments, new FinishCommand());
         case "exit":
-            requireEmptyArgs(arguments);
-            return new ExitCommand();
+            return requireEmpty(arguments, new ExitCommand());
         case "help":
-            requireEmptyArgs(arguments);
-            return new HelpCommand();
+            return requireEmpty(arguments, new HelpCommand());
         default:
             throw new FlashException(ErrorType.INVALID_COMMAND);
         }
@@ -126,18 +122,10 @@ public class Parser {
     }
 
     // Ensures each string passed in non-empty
-    private static void requireNonEmpty(String... args) throws FlashException {
-        for (String arg : args) {
-            if (arg.isEmpty()) {
-                throw new FlashException(ErrorType.ARGUMENT_MISSING);
-            }
-        }
-    }
-
-    // Ensures each string passed in non-empty
-    private static void requireEmptyArgs(String args) throws FlashException {
+    private static Command requireEmpty(String args, Command command) throws FlashException {
         if (args != null && !args.trim().isEmpty()) {
             throw new FlashException(ErrorType.UNEXPECTED_ARGUMENTS);
         }
+        return command;
     }
 }
