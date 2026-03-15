@@ -91,21 +91,8 @@ public class Parser {
 
     // Ensures the d/, q/ and a/ prefixes are contained in the right order, and non-empty descriptions
     private static Command parseAddCardCommand(String arguments) throws FlashException {
-        String deckPrefix     = ArgumentExtractor.DECK_PREFIX;
-        String questionPrefix = ArgumentExtractor.QUESTION_PREFIX;
-        String answerPrefix   = ArgumentExtractor.ANSWER_PREFIX;
-        ArgumentExtractor.validatePrefixes(arguments, deckPrefix, questionPrefix, answerPrefix);
-        ArgumentExtractor.validatePrefixOrder(arguments, deckPrefix, questionPrefix, answerPrefix);
-
-        int deckIdx     = arguments.indexOf(deckPrefix);
-        int questionIdx = arguments.indexOf(questionPrefix);
-        int answerIdx   = arguments.indexOf(answerPrefix);
-        String deck     = arguments.substring(deckIdx + 2, questionIdx).trim();
-        String question = arguments.substring(questionIdx + 2, answerIdx).trim();
-        String answer   = arguments.substring(answerIdx + 2).trim();
-
-        requireNonEmpty(deck, question, answer);
-        return new AddCardCommand(deck, question, answer);
+        AddCardArgs args = ArgumentExtractor.parseAddCardArgs(arguments);
+        return new AddCardCommand(args.getDeckName(), args.getQuestion(), args.getAnswer());
     }
 
     // Ensures the d/ prefix, and non-empty deck name
