@@ -147,46 +147,55 @@ public class ParserTest {
 
     }
 
-    // deleteCard Tests
+    @Nested
+    @DisplayName("deleteCard Command Tests")
+    class DeleteCardTests {
 
-    @Test
-    void deleteCard_valid_doesNotThrow() {
-        assertDoesNotThrow(() -> Parser.parse("deleteCard d/Math i/1"));
-    }
+        @Test
+        @DisplayName("deleteCard valid command parses successfully")
+        void deleteCard_valid_doesNotThrow() {
+            assertDoesNotThrow(() -> Parser.parse("deleteCard d/Math i/1"));
+        }
 
-    @Test
-    void deleteCard_missingDeckPrefix_throwsMissingDeck() {
-        FlashException e = assertThrows(FlashException.class,
-                () -> Parser.parse("deleteCard i/1"));
-        assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
-    }
+        @Test
+        @DisplayName("deleteCard missing deck prefix throws MISSING_DECK")
+        void deleteCard_missingDeckPrefix_throwsMissingDeck() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("deleteCard i/1"));
+            assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
+        }
 
-    @Test
-    void deleteCard_missingIndexPrefix_throwsMissingIndex() {
-        FlashException e = assertThrows(FlashException.class,
-                () -> Parser.parse("deleteCard d/Math"));
-        assertEquals(ErrorType.MISSING_INDEX, e.getErrorType());
-    }
+        @Test
+        @DisplayName("deleteCard missing index prefix throws MISSING_INDEX")
+        void deleteCard_missingIndexPrefix_throwsMissingIndex() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("deleteCard d/Math"));
+            assertEquals(ErrorType.MISSING_INDEX, e.getErrorType());
+        }
 
-    @Test
-    void deleteCard_wrongPrefixOrder_throwsInvalidArguments() {
-        FlashException e = assertThrows(FlashException.class,
-                () -> Parser.parse("deleteCard i/1 d/Math"));
-        assertEquals(ErrorType.INVALID_ARGUMENTS, e.getErrorType());
-    }
+        @Test
+        @DisplayName("deleteCard wrong prefix order throws INVALID_ARGUMENTS")
+        void deleteCard_wrongPrefixOrder_throwsInvalidArguments() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("deleteCard i/1 d/Math"));
+            assertEquals(ErrorType.INVALID_ARGUMENTS, e.getErrorType());
+        }
 
-    @Test
-    void deleteCard_nonIntegerIndex_throwsInvalidIndex() {
-        FlashException e = assertThrows(FlashException.class,
-                () -> Parser.parse("deleteCard d/Math i/abc"));
-        assertEquals(ErrorType.INVALID_INDEX, e.getErrorType());
-    }
+        @Test
+        @DisplayName("deleteCard non-integer index throws INVALID_INDEX")
+        void deleteCard_nonIntegerIndex_throwsInvalidIndex() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("deleteCard d/Math i/abc"));
+            assertEquals(ErrorType.INVALID_INDEX, e.getErrorType());
+        }
 
-    @Test
-    void deleteCard_emptyIndex_throwsMissingIndex() {
-        FlashException e = assertThrows(FlashException.class,
-                () -> Parser.parse("deleteCard d/Math i/"));
-        assertEquals(ErrorType.MISSING_INDEX, e.getErrorType());
+        @Test
+        @DisplayName("deleteCard empty index throws MISSING_INDEX")
+        void deleteCard_emptyIndex_throwsMissingIndex() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("deleteCard d/Math i/"));
+            assertEquals(ErrorType.MISSING_INDEX, e.getErrorType());
+        }
     }
 
     // createDeck Tests
