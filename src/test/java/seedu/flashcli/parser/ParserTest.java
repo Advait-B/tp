@@ -18,19 +18,19 @@ public class ParserTest {
 
     @Test
     void nullInput_throwsNullInput() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser(null));
+        FlashException e = assertThrows(FlashException.class, () -> Parser.parse(null));
         assertEquals(ErrorType.NULL_INPUT, e.getErrorType());
     }
 
     @Test
     void blankInput_throwsNullInput() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser("   "));
+        FlashException e = assertThrows(FlashException.class, () -> Parser.parse("   "));
         assertEquals(ErrorType.NULL_INPUT, e.getErrorType());
     }
 
     @Test
     void unknownCommand_throwsInvalidCommand() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser("unknownCmd"));
+        FlashException e = assertThrows(FlashException.class, () -> Parser.parse("unknownCmd"));
         assertEquals(ErrorType.INVALID_COMMAND, e.getErrorType());
     }
 
@@ -38,62 +38,62 @@ public class ParserTest {
 
     @Test
     void addCard_valid_doesNotThrow() {
-        assertDoesNotThrow(() -> new Parser("addCard d/Math q/What is 2+2? a/4"));
+        assertDoesNotThrow(() -> Parser.parse("addCard d/Math q/What is 2+2? a/4"));
     }
 
     @Test
     void addCard_missingDeckPrefix_throwsMissingDeck() {
         FlashException e = assertThrows(FlashException.class,
-                () -> new Parser("addCard q/What is 2+2? a/4"));
+                () -> Parser.parse("addCard q/What is 2+2? a/4"));
         assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
     }
 
     @Test
     void addCard_missingQuestionPrefix_throwsMissingQuestion() {
         FlashException e = assertThrows(FlashException.class,
-                () -> new Parser("addCard d/Math a/4"));
+                () -> Parser.parse("addCard d/Math a/4"));
         assertEquals(ErrorType.MISSING_QUESTION, e.getErrorType());
     }
 
     @Test
     void addCard_missingAnswerPrefix_throwsMissingAnswer() {
         FlashException e = assertThrows(FlashException.class,
-                () -> new Parser("addCard d/Math q/What is 2+2?"));
+                () -> Parser.parse("addCard d/Math q/What is 2+2?"));
         assertEquals(ErrorType.MISSING_ANSWER, e.getErrorType());
     }
 
     @Test
-    void addCard_wrongPrefixOrder_throwsInvalidAddCard() {
+    void addCard_wrongPrefixOrder_throwsInvalidArguments() {
         FlashException e = assertThrows(FlashException.class,
-                () -> new Parser("addCard q/What is 2+2? d/Math a/4"));
-        assertEquals(ErrorType.INVALID_ADD_CARD, e.getErrorType());
+                () -> Parser.parse("addCard q/What is 2+2? d/Math a/4"));
+        assertEquals(ErrorType.INVALID_ARGUMENTS, e.getErrorType());
     }
 
     @Test
-    void addCard_emptyDeckName_throwsArgumentMissing() {
+    void addCard_emptyDeckName_throwsMissingDeck() {
         FlashException e = assertThrows(FlashException.class,
-                () -> new Parser("addCard d/ q/What is 2+2? a/4"));
-        assertEquals(ErrorType.ARGUMENT_MISSING, e.getErrorType());
+                () -> Parser.parse("addCard d/ q/What is 2+2? a/4"));
+        assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
     }
 
     @Test
-    void addCard_emptyQuestion_throwsArgumentMissing() {
+    void addCard_emptyQuestion_throwsMissingQuestion() {
         FlashException e = assertThrows(FlashException.class,
-                () -> new Parser("addCard d/Math q/ a/4"));
-        assertEquals(ErrorType.ARGUMENT_MISSING, e.getErrorType());
+                () -> Parser.parse("addCard d/Math q/ a/4"));
+        assertEquals(ErrorType.MISSING_QUESTION, e.getErrorType());
     }
 
     @Test
-    void addCard_emptyAnswer_throwsArgumentMissing() {
+    void addCard_emptyAnswer_throwsMissingAnswer() {
         FlashException e = assertThrows(FlashException.class,
-                () -> new Parser("addCard d/Math q/What is 2+2? a/"));
-        assertEquals(ErrorType.ARGUMENT_MISSING, e.getErrorType());
+                () -> Parser.parse("addCard d/Math q/What is 2+2? a/"));
+        assertEquals(ErrorType.MISSING_ANSWER, e.getErrorType());
     }
 
     @Test
     void addCard_duplicateDeckPrefix_throwsDuplicatePrefix() {
         FlashException e = assertThrows(FlashException.class,
-                () -> new Parser("addCard d/Math d/Science q/What is 2+2? a/4"));
+                () -> Parser.parse("addCard d/Math d/Science q/What is 2+2? a/4"));
         assertEquals(ErrorType.DUPLICATE_PREFIX, e.getErrorType());
     }
 
@@ -101,118 +101,189 @@ public class ParserTest {
 
     @Test
     void listCards_valid_doesNotThrow() {
-        assertDoesNotThrow(() -> new Parser("listCards d/Math"));
+        assertDoesNotThrow(() -> Parser.parse("listCards d/Math"));
     }
 
     @Test
     void listCards_missingDeckPrefix_throwsMissingDeck() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser("listCards Math"));
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("listCards Math"));
         assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
     }
 
     @Test
-    void listCards_emptyDeckName_throwsArgumentMissing() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser("listCards d/"));
-        assertEquals(ErrorType.ARGUMENT_MISSING, e.getErrorType());
+    void listCards_emptyDeckName_throwsMissingDeck() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("listCards d/"));
+        assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
     }
 
     // deleteCard Tests
 
     @Test
     void deleteCard_valid_doesNotThrow() {
-        assertDoesNotThrow(() -> new Parser("deleteCard d/Math i/1"));
+        assertDoesNotThrow(() -> Parser.parse("deleteCard d/Math i/1"));
     }
 
     @Test
     void deleteCard_missingDeckPrefix_throwsMissingDeck() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser("deleteCard i/1"));
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("deleteCard i/1"));
         assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
     }
 
     @Test
     void deleteCard_missingIndexPrefix_throwsMissingIndex() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser("deleteCard d/Math"));
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("deleteCard d/Math"));
         assertEquals(ErrorType.MISSING_INDEX, e.getErrorType());
     }
 
     @Test
-    void deleteCard_wrongPrefixOrder_throwsInvalidDeleteCard() {
+    void deleteCard_wrongPrefixOrder_throwsInvalidArguments() {
         FlashException e = assertThrows(FlashException.class,
-                () -> new Parser("deleteCard i/1 d/Math"));
-        assertEquals(ErrorType.INVALID_DELETE_CARD, e.getErrorType());
+                () -> Parser.parse("deleteCard i/1 d/Math"));
+        assertEquals(ErrorType.INVALID_ARGUMENTS, e.getErrorType());
     }
 
     @Test
     void deleteCard_nonIntegerIndex_throwsInvalidIndex() {
         FlashException e = assertThrows(FlashException.class,
-                () -> new Parser("deleteCard d/Math i/abc"));
+                () -> Parser.parse("deleteCard d/Math i/abc"));
         assertEquals(ErrorType.INVALID_INDEX, e.getErrorType());
     }
 
     @Test
-    void deleteCard_emptyIndex_throwsArgumentMissing() {
+    void deleteCard_emptyIndex_throwsMissingIndex() {
         FlashException e = assertThrows(FlashException.class,
-                () -> new Parser("deleteCard d/Math i/"));
-        assertEquals(ErrorType.ARGUMENT_MISSING, e.getErrorType());
+                () -> Parser.parse("deleteCard d/Math i/"));
+        assertEquals(ErrorType.MISSING_INDEX, e.getErrorType());
     }
 
     // createDeck Tests
 
     @Test
     void createDeck_valid_doesNotThrow() {
-        assertDoesNotThrow(() -> new Parser("createDeck d/Math"));
+        assertDoesNotThrow(() -> Parser.parse("createDeck d/Math"));
     }
 
     @Test
     void createDeck_missingDeckPrefix_throwsMissingDeck() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser("createDeck Math"));
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("createDeck Math"));
         assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
     }
 
     @Test
-    void createDeck_emptyDeckName_throwsArgumentMissing() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser("createDeck d/"));
-        assertEquals(ErrorType.ARGUMENT_MISSING, e.getErrorType());
+    void createDeck_emptyDeckName_throwsMissingDeck() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("createDeck d/"));
+        assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
     }
 
     // listDecks Tests
 
     @Test
     void listDecks_valid_doesNotThrow() {
-        assertDoesNotThrow(() -> new Parser("listDecks"));
-        assertDoesNotThrow(() -> new Parser("listDecks xyz"));
-        assertDoesNotThrow(() -> new Parser("listDecks    "));
+        assertDoesNotThrow(() -> Parser.parse("listDecks"));
+    }
+
+    @Test
+    void listDecks_unexpectedArguments_throwsUnexpectedArguments() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("listDecks xyz"));
+        assertEquals(ErrorType.UNEXPECTED_ARGUMENTS, e.getErrorType());
     }
 
     // clearDeck Tests
 
     @Test
     void clearDeck_valid_doesNotThrow() {
-        assertDoesNotThrow(() -> new Parser("clearDeck d/Math"));
+        assertDoesNotThrow(() -> Parser.parse("clearDeck d/Math"));
     }
 
     @Test
     void clearDeck_missingDeckPrefix_throwsMissingDeck() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser("clearDeck Math"));
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("clearDeck Math"));
         assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
     }
 
     @Test
-    void clearDeck_emptyDeckName_throwsArgumentMissing() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser("clearDeck d/"));
-        assertEquals(ErrorType.ARGUMENT_MISSING, e.getErrorType());
+    void clearDeck_emptyDeckName_throwsMissingDeck() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("clearDeck d/"));
+        assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
     }
 
     // study Tests
 
     @Test
     void study_valid_doesNotThrow() {
-        assertDoesNotThrow(() -> new Parser("study d/Math"));
+        assertDoesNotThrow(() -> Parser.parse("study d/Math"));
     }
 
     @Test
     void study_missingDeckPrefix_throwsMissingDeck() {
-        FlashException e = assertThrows(FlashException.class, () -> new Parser("study Math"));
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("study Math"));
         assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
+    }
+
+    @Test
+    void study_emptyDeckName_throwsMissingDeck() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("study d/"));
+        assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
+    }
+
+    // No-argument command Tests
+
+    @Test
+    void nextCard_valid_doesNotThrow() {
+        assertDoesNotThrow(() -> Parser.parse("nextCard"));
+    }
+
+    @Test
+    void nextCard_unexpectedArguments_throwsUnexpectedArguments() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("nextCard xyz"));
+        assertEquals(ErrorType.UNEXPECTED_ARGUMENTS, e.getErrorType());
+    }
+
+    @Test
+    void finish_valid_doesNotThrow() {
+        assertDoesNotThrow(() -> Parser.parse("finish"));
+    }
+
+    @Test
+    void finish_unexpectedArguments_throwsUnexpectedArguments() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("finish xyz"));
+        assertEquals(ErrorType.UNEXPECTED_ARGUMENTS, e.getErrorType());
+    }
+
+    @Test
+    void exit_valid_doesNotThrow() {
+        assertDoesNotThrow(() -> Parser.parse("exit"));
+    }
+
+    @Test
+    void exit_unexpectedArguments_throwsUnexpectedArguments() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("exit xyz"));
+        assertEquals(ErrorType.UNEXPECTED_ARGUMENTS, e.getErrorType());
+    }
+
+    @Test
+    void help_valid_doesNotThrow() {
+        assertDoesNotThrow(() -> Parser.parse("help"));
+    }
+
+    @Test
+    void help_unexpectedArguments_throwsUnexpectedArguments() {
+        FlashException e = assertThrows(FlashException.class,
+                () -> Parser.parse("help xyz"));
+        assertEquals(ErrorType.UNEXPECTED_ARGUMENTS, e.getErrorType());
     }
 }
