@@ -4,12 +4,17 @@ import seedu.flashcli.command.*;
 import seedu.flashcli.exception.ErrorType;
 import seedu.flashcli.exception.FlashException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Converts raw user input into a command object for execution.
  * Validates input is non-blank, and validates command keyword.
  * Dispatches to the appropriate helper, then constructs and returns the command.
  */
 public class Parser {
+
+    private static final Logger logger = Logger.getLogger("Parser");
 
     private static final String[] VALID_COMMANDS = {
             "addCard", "listCards", "deleteCard", "createDeck",
@@ -28,12 +33,15 @@ public class Parser {
      */
 
     public static Command parse(String userInput) throws FlashException {
+        logger.log(Level.FINE, "parse() called with: \"{0}\"", userInput == null ? "null" : userInput);
         validateInput(userInput);
         // Splits the user input into two words (command, argument)
         String[] tokens = userInput.split(" ", 2);
         String command = tokens[0].trim();
         String arguments = tokens.length > 1 ? tokens[1].trim() : "";
         validateCommandName(command);
+        logger.log(Level.FINE, "Dispatching command: \"{0}\" with arguments: \"{1}\"",
+                new Object[]{command, arguments});
         Command result = dispatch(command, arguments);
         assert result != null : "dispatch() returned null for command: " + command;
         return result;
@@ -47,6 +55,7 @@ public class Parser {
      */
     private static void validateInput(String userInput) throws FlashException {
         if (userInput == null || userInput.trim().isEmpty()) {
+            logger.log(Level.WARNING, "validateInput failed: input was null or blank");
             throw new FlashException(ErrorType.NULL_INPUT);
         }
     }
@@ -150,6 +159,7 @@ public class Parser {
      */
     private static Command requireEmpty(String args, Command command) throws FlashException {
         if (args != null && !args.trim().isEmpty()) {
+            logger.log(Level.WARNING, "requireEmpty failed: unexpected arguments \"{0}\"", args);
             throw new FlashException(ErrorType.UNEXPECTED_ARGUMENTS);
         }
         return command;
