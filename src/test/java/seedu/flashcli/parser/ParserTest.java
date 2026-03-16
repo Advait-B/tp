@@ -198,25 +198,31 @@ public class ParserTest {
         }
     }
 
-    // createDeck Tests
+    @Nested
+    @DisplayName("createDeck Command Tests")
+    class CreateDeckTests {
 
-    @Test
-    void createDeck_valid_doesNotThrow() {
-        assertDoesNotThrow(() -> Parser.parse("createDeck d/Math"));
-    }
+        @Test
+        @DisplayName("createDeck valid command parses successfully")
+        void createDeck_valid_doesNotThrow() {
+            assertDoesNotThrow(() -> Parser.parse("createDeck d/Math"));
+        }
 
-    @Test
-    void createDeck_missingDeckPrefix_throwsMissingDeck() {
-        FlashException e = assertThrows(FlashException.class,
-                () -> Parser.parse("createDeck Math"));
-        assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
-    }
+        @Test
+        @DisplayName("createDeck missing deck prefix throws MISSING_DECK")
+        void createDeck_missingDeckPrefix_throwsMissingDeck() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("createDeck Math"));
+            assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
+        }
 
-    @Test
-    void createDeck_emptyDeckName_throwsMissingDeck() {
-        FlashException e = assertThrows(FlashException.class,
-                () -> Parser.parse("createDeck d/"));
-        assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
+        @Test
+        @DisplayName("createDeck empty deck name throws MISSING_DECK")
+        void createDeck_emptyDeckName_throwsMissingDeck() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("createDeck d/"));
+            assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
+        }
     }
 
     // listDecks Tests
