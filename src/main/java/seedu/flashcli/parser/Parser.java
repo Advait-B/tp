@@ -100,8 +100,8 @@ public class Parser {
             return parseStudyCommand(arguments);
         case "exit":
             return requireEmpty(arguments, new ExitCommand());
-//        case "help":
-//            return requireEmpty(arguments, new HelpCommand());
+        case "help":
+            return requireEmpty(arguments, new HelpCommand());
         default:
             throw new FlashException(ErrorType.INVALID_COMMAND);
         }

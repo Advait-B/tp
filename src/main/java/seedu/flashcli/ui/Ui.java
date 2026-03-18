@@ -97,6 +97,49 @@ public class Ui {
         System.out.println(LINE);
     }
 
+    public void showHelp() {
+        String helpMessage = """
+            FlashCLI Command Guide
+
+            createsub d/DECK_NAME
+                Create a new subject deck
+
+            listsub
+                List all subject decks
+
+            addcard d/DECK q/QUESTION a/ANSWER
+                Add a flashcard to a deck
+
+            listcards d/DECK
+                List all flashcards in a deck
+
+            study d/DECK
+                Start study mode
+            
+            q
+                End study mode
+                
+            enter (keystroke)
+                show next card/answer during an active study session
+
+            delete d/DECK i/INDEX
+                Delete a flashcard by index
+
+            clear d/DECK
+                Clear all flashcards in a deck
+
+            help
+                Show this help message
+
+            exit
+                Exit the program
+                
+            =================================================
+            """;
+
+        System.out.println(helpMessage);
+    }
+
     /**
      * Prints out error message together with the user input that caused it.
      *
