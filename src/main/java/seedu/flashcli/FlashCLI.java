@@ -8,7 +8,7 @@ import seedu.flashcli.deck.DeckManager;
 import seedu.flashcli.exception.FlashException;
 import seedu.flashcli.parser.Parser;
 import seedu.flashcli.storage.Storage;
-import seedu.flashcli.exception.FlashException;
+import seedu.flashcli.ui.Ui;
 
 public class FlashCLI {
     private final DeckManager deckManager;
@@ -22,51 +22,27 @@ public class FlashCLI {
      * Main entry-point for the java.duke.Duke application.
      */
     public static void main(String[] args) {
-        FlashCLI flashCLI = new FlashCLI();
-        Scanner in = new Scanner(System.in);
-        System.out.println("Hello " + in.nextLine());
-        //testStorageFunctionality();
-        //testStorageHistory();
+    FlashCLI flashCLI = new FlashCLI();
+    flashCLI.ui.hello();
+    Scanner in = new Scanner(System.in);
+    String userInput;
+    while (!(userInput = in.nextLine()).equals("exit")) {
+        if (flashCLI.executeCommand(userInput, in)) break;
     }
+}
 
-    private static void testStorageFunctionality() throws FlashException{
-        System.out.println("=== Storage Test ===");
-
-        // 1. Initialize
-        Storage storage = new Storage("data/flashcards.json");
-
-        // 2. Create test data
-        DeckManager testManager = new DeckManager();
-        testManager.createDeck("math");
-        testManager.createDeck("English");
-        Deck mathDeck = testManager.getDeck("math");
-        mathDeck.addCard("triangle", "S=0.5*a*b");
-        mathDeck.addCard("rectangle","S=a*b");
-
-        Deck englishDeck = testManager.getDeck("english");
-        englishDeck.addCard("hi", "hello");
-
-        Command command;
-        String userInput;
-        while (true) {
-            userInput = in.nextLine().trim();
-            if (!flashCLI.executeCommand(userInput)) {
-                break;
-            }
-        }
-        in.close();
-    }
 
     /**
      * Executes command the user wants (add item to list, print list, exit).
      * @param userInput The command input by the user.
      * @return true if program should exit after executing this command.
      */
-    public boolean executeCommand(String userInput) {
+    // Change executeCommand to accept the scanner
+    public boolean executeCommand(String userInput, Scanner in) {
         Command command;
         try {
             command = Parser.parse(userInput);
-            boolean exitProgram = command.execute(deckManager, ui);
+            boolean exitProgram = command.execute(deckManager, ui, in);
             storage.save(deckManager);
             return exitProgram;
         } catch (FlashException e) {

@@ -4,6 +4,7 @@ import seedu.flashcli.deck.DeckManager;
 import seedu.flashcli.ui.Ui;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class ListDecksCommand implements Command {
 
@@ -14,7 +15,7 @@ public class ListDecksCommand implements Command {
      * @return false, false, indicating the program should not terminate after executing this object.
      */
     @Override
-    public boolean execute(DeckManager deckManager, Ui ui) {
+    public boolean execute(DeckManager deckManager, Ui ui, Scanner in) {
         List<String> deckNameList = deckManager.listDecks();
         ui.showDeckList(deckNameList);
         return false;

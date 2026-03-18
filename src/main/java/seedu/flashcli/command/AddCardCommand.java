@@ -1,5 +1,7 @@
 package seedu.flashcli.command;
 
+import java.util.Scanner;
+
 import seedu.flashcli.deck.Card;
 import seedu.flashcli.deck.Deck;
 import seedu.flashcli.deck.DeckManager;
@@ -32,7 +34,7 @@ public class AddCardCommand implements Command {
      * @return false, indicating the program should not terminate after executing this object.
      * @throws FlashException Throws DECK_NOT_FOUND, indicating that deckName input by the user does not exist.
      */
-    public boolean execute(DeckManager deckManager, Ui ui) throws FlashException {
+    public boolean execute(DeckManager deckManager, Ui ui, Scanner in) throws FlashException {
         Deck deck = deckManager.getDeck(deckName);
         if (deck == null) {
             throw new FlashException(ErrorType.DECK_NOT_FOUND);
