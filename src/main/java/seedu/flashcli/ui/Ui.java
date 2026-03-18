@@ -59,6 +59,17 @@ public class Ui {
     }
 
     /**
+     * Prints user message when a deck has been successfully cleared.
+     *
+     * @param deckName Name of the deck cleared.
+     */
+    public void showDeckCleared(String deckName) {
+        System.out.println(LINE);
+        System.out.println("Cleared deck: " + deckName);
+        System.out.println(LINE);
+    }
+
+    /**
      * Prints out a list of all the decks currently.
      *
      * @param deckNameList String of ordered list of names of current decks in deckManager.

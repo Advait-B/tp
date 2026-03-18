@@ -21,7 +21,7 @@ public class Parser {
             "listDecks", "clearDeck", "study", "nextCard", "finish", "exit", "help"
     };
 
-    private Parser() {
+    public Parser() {
 
     }
 
@@ -94,8 +94,8 @@ public class Parser {
             return parseCreateDeckCommand(arguments);
         case "listDecks":
             return new ListDecksCommand();
-//        case "clearDeck":
-//            return parseClearDeckCommand(arguments);
+        case "clearDeck":
+            return parseClearDeckCommand(arguments);
         case "study":
             return parseStudyCommand(arguments);
         case "exit":
