@@ -51,7 +51,7 @@ public class Deck {
 
     //returns the Card object at the specified index of the cardList
     public Card getCard(int cardIndex) throws FlashException{
-        if (cardIndex > cardList.size()){
+        if (cardIndex >= cardList.size() || cardIndex < 0){
             throw new FlashException(ErrorType.INVALID_INDEX);
         } else { 
             return cardList.get(cardIndex);

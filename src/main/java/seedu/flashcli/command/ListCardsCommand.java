@@ -8,6 +8,7 @@ import seedu.flashcli.exception.FlashException;
 import seedu.flashcli.ui.Ui;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ListCardsCommand implements Command {
     private String deckName;
@@ -28,7 +29,7 @@ public class ListCardsCommand implements Command {
      * @return false, false, indicating the program should not terminate after executing this object.
      */
     @Override
-    public boolean execute(DeckManager deckManager, Ui ui) throws FlashException {
+    public boolean execute(DeckManager deckManager, Ui ui, Scanner in) throws FlashException {
         Deck deck = deckManager.getDeck(deckName);
         if (deck == null) {
             throw new FlashException(ErrorType.DECK_NOT_FOUND);

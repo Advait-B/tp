@@ -18,7 +18,7 @@ public class Parser {
 
     private static final String[] VALID_COMMANDS = {
             "addCard", "listCards", "deleteCard", "createDeck",
-            "listDecks", "clearDeck", "study", "nextCard", "finish", "exit", "help"
+            "listDecks", "clearDeck", "study", "exit", "help"
     };
 
     public Parser() {

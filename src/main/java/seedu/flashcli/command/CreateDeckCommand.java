@@ -1,5 +1,7 @@
 package seedu.flashcli.command;
 
+import java.util.Scanner;
+
 import seedu.flashcli.deck.DeckManager;
 import seedu.flashcli.exception.FlashException;
 import seedu.flashcli.ui.Ui;
@@ -20,7 +22,7 @@ public class CreateDeckCommand implements Command {
      * @throws FlashException Throws DECK_NOT_FOUND, indicating that the deckName input by the user is null/empty.
      */
     @Override
-    public boolean execute(DeckManager deckManager, Ui ui) throws FlashException {
+    public boolean execute(DeckManager deckManager, Ui ui, Scanner in) throws FlashException {
         deckManager.createDeck(deckName);
         ui.showDeckCreated(deckName);
         return false;
