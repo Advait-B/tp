@@ -1,7 +1,6 @@
 package seedu.flashcli.ui;
 
 import seedu.flashcli.deck.Card;
-import seedu.flashcli.deck.Deck;
 
 import java.util.ArrayList;
 import java.util.List;
