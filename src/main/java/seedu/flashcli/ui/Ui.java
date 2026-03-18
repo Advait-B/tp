@@ -87,11 +87,14 @@ public class Ui {
     }
 
     /**
-     * Prints out error message.
+     * Prints out error message together with the user input that caused it.
      *
      * @param errorMsg String to print out.
      */
-    public void showError(String errorMsg) {
-        System.out.println(errorMsg);
+    public void showError(String userInput, String errorMsg) {
+        System.out.println("Error encountered: \n"
+            + "Error msg: " + errorMsg + "\n"
+            + "User Input: " + userInput
+            );
     }
 }
