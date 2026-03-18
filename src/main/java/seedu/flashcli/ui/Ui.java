@@ -1,13 +1,17 @@
 package seedu.flashcli.ui;
 
 import seedu.flashcli.deck.Card;
-import seedu.flashcli.deck.Deck;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Ui {
     private final String LINE = "_______________________________";
+
+    public void hello() {
+        System.out.println("Welcome to FlashCLI!");
+    }
+
     /**
      * Prints user message when a card has been successfully added to a specific deck.
      *
