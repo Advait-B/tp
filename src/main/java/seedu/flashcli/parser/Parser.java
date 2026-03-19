@@ -26,8 +26,8 @@ public class Parser {
     private static final Logger logger = Logger.getLogger("Parser");
 
     private static final String[] VALID_COMMANDS = {
-            "addCard", "listCards", "deleteCard", "createDeck",
-            "listDecks", "clearDeck", "study", "exit", "help"
+        "addCard", "listCards", "deleteCard", "createDeck",
+        "listDecks", "clearDeck", "study", "exit", "help"
     };
 
     public Parser() {
