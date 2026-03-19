@@ -11,7 +11,7 @@ import seedu.flashcli.ui.Ui;
 
 public class FlashCLI {
     private final DeckManager deckManager;
-    Storage storage = new Storage("data/storage.json");
+    private final Storage storage = new Storage("data/storage.json");
     private final Ui ui = new Ui();
 
     public FlashCLI() {
@@ -27,7 +27,9 @@ public class FlashCLI {
         Scanner in = new Scanner(System.in);
         String userInput;
         while (!(userInput = in.nextLine()).equals("exit")) {
-            if (flashCLI.executeCommand(userInput, in)) break;
+            if (flashCLI.executeCommand(userInput, in)) {
+                break;
+            }
         }
     }
 

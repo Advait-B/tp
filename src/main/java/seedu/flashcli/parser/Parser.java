@@ -36,6 +36,7 @@ public class Parser {
 
     /**
      * Parses user input into an executable command.
+     *
      * @param userInput String typed by the user.
      * @return The command corresponding to the userInput.
      * @throws FlashException if blank input, unrecognised command or invalid arguments.
