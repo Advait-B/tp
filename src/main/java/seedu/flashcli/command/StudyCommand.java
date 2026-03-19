@@ -1,56 +1,60 @@
 package seedu.flashcli.command;
 
-import seedu.flashcli.deck.Card;
 import seedu.flashcli.deck.Deck;
-import seedu.flashcli.deck.DeckManager;
-import seedu.flashcli.exception.ErrorType;
-import seedu.flashcli.exception.FlashException;
-import seedu.flashcli.study.SessionManager;
-import seedu.flashcli.study.StudySession;
-import seedu.flashcli.ui.Ui;
 
 import java.util.Scanner;
 
-public class StudyCommand implements Command {
-    private Scanner in = new Scanner(System.in);
-    private String deckName;
+import seedu.flashcli.deck.Card;
+import seedu.flashcli.deck.DeckManager;
+import seedu.flashcli.study.SessionManager;
+import seedu.flashcli.ui.Ui;
+import seedu.flashcli.exception.FlashException;
 
-    /**
-     * Creates a StudyCommand object.
-     *
-     * @param deckName The name (identifier) of the deck which we want to study.
-     */
+public class StudyCommand implements Command {
+    private final String deckName;
+
     public StudyCommand(String deckName) {
         this.deckName = deckName;
     }
 
-    /**
-     * Runs a study session for s specific deck.
-     *
-     * @param deckManager Represents the current deckManager state.
-     * @return false, indicating the program should not terminate after executing this object.
-     * @throws FlashException Throws DECK_NOT_FOUND, indicating that deckName input by the user does not exist.
-     */
-    public boolean execute(DeckManager deckManager, Ui ui) throws FlashException {
+    @Override
+    public boolean execute(DeckManager deckManager, Ui ui, Scanner in) throws FlashException {
         Deck deck = deckManager.getDeck(deckName);
-        if (deck == null) {
-            throw new FlashException(ErrorType.DECK_NOT_FOUND);
+        if (deck.getSize() == 0) {
+            ui.showEmptyDeck();
+            return false;
         }
         SessionManager sessionManager = new SessionManager();
         sessionManager.startSession(deck);
-        boolean showQn = false; //tells program to show qn if true, ans if false
-        boolean endSession = false;
-        Card currentCard = sessionManager.nextCard();
-        //logic to alternate between showing the next card (question), and revealing ans for the current card.
-        while (!endSession && !in.nextLine().equals("q")) {
-            if (showQn) {
-                endSession = sessionManager.nextCard();
-                showQn = false;
+
+        // Show the first question immediately
+        Card first = sessionManager.getCurrentCard();
+        ui.showStudyQuestion(first.getQuestion());
+
+        boolean showingAnswer = false; // false = next Enter shows answer, true = next Enter advances card
+
+        String line;
+        while (!(line = in.nextLine()).equals("q")) {
+            if (!showingAnswer) {
+                // Reveal answer for current card
+                Card current = sessionManager.getCurrentCard();
+                ui.showStudyAnswer(current.getAnswer());
+                showingAnswer = true;
             } else {
-                sessionManager.showAnswer();
-                showQn = true;
+                // Advance to next card
+                boolean finished = sessionManager.nextCard();
+                if (finished) {
+                    int reviewed = sessionManager.finishSession();
+                    ui.showStudySessionEnd(reviewed);
+                    return false;
+                }
+                Card next = sessionManager.getCurrentCard();
+                ui.showStudyQuestion(next.getQuestion());
+                showingAnswer = false;
             }
         }
+        int reviewed = sessionManager.finishSession();
+        ui.showStudySessionQuit(reviewed);
         return false;
     }
 }

@@ -1,5 +1,7 @@
 package seedu.flashcli.command;
 
+import java.util.Scanner;
+
 import seedu.flashcli.deck.DeckManager;
 import seedu.flashcli.ui.Ui;
 
@@ -12,7 +14,7 @@ public class ExitCommand implements Command {
      * @return true, indicating the program should terminate after executing this object.
      */
     @Override
-    public boolean execute(DeckManager deckManager, Ui ui) {
+    public boolean execute(DeckManager deckManager, Ui ui, Scanner in) {
         ui.bye();
         return true;
     }
