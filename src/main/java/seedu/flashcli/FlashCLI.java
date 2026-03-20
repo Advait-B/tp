@@ -1,66 +1,58 @@
 package seedu.flashcli;
 
 import java.util.Scanner;
-import seedu.flashcli.deck.Deck;
+
+import seedu.flashcli.command.Command;
 import seedu.flashcli.deck.DeckManager;
+import seedu.flashcli.exception.FlashException;
+import seedu.flashcli.parser.Parser;
 import seedu.flashcli.storage.Storage;
+import seedu.flashcli.ui.Ui;
 
 public class FlashCLI {
+    private final DeckManager deckManager;
+    private final Storage storage = new Storage("data/storage.json");
+    private final Ui ui = new Ui();
+
+    public FlashCLI() {
+        deckManager = storage.load();
+    }
+
     /**
      * Main entry-point for the java.duke.Duke application.
      */
     public static void main(String[] args) {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
-        System.out.println("What is your name?");
-
+        FlashCLI flashCLI = new FlashCLI();
+        flashCLI.ui.hello();
         Scanner in = new Scanner(System.in);
-        System.out.println("Hello " + in.nextLine());
-        //testStorageFunctionality();
-    }
-
-    private static void testStorageFunctionality() {
-        System.out.println("=== Storage Test ===");
-
-        // 1. Initialize
-        Storage storage = new Storage("data/flashcards.json");
-
-        // 2. Create test data
-        DeckManager testManager = new DeckManager();
-        testManager.createDeck("math");
-        testManager.createDeck("English");
-        Deck mathDeck = testManager.getDeck("math");
-        mathDeck.addCard("triangle", "S=0.5*a*b");
-        mathDeck.addCard("rectangle","S=a*b");
-
-        Deck englishDeck = testManager.getDeck("english");
-        englishDeck.addCard("hi", "hello");
-
-        System.out.println("Create " + testManager.getDeck("math").getSize() + " decks");
-
-        // 3. save data
-        storage.save(testManager);
-        System.out.println("data saved");
-
-        // 4. load data
-        DeckManager loadedManager = storage.load();
-
-        // 5. simple test
-        if (loadedManager.getDeck("math") != null) {
-            System.out.println("first deck: " + loadedManager.getDeck("math").getDeckName());
-            System.out.println("this deck includes " + loadedManager.getDeck("math").getSize() + " cards");
-        } else {
-            System.out.println("fail");
+        String userInput;
+        while (!(userInput = in.nextLine()).equals("exit")) {
+            if (flashCLI.executeCommand(userInput, in)) {
+                break;
+            }
         }
-
-        System.out.println("=== finish test ===");
-
-        System.out.println("\ndata saved in " + System.getProperty("user.dir") + "/data/flashcards.json");
-        System.out.println("You can view JSON file there");
     }
+
+
+    /**
+     * Executes command the user wants (add item to list, print list, exit).
+     *
+     * @param userInput The command input by the user.
+     * @return true if program should exit after executing this command.
+     */
+    // Change executeCommand to accept the scanner
+    public boolean executeCommand(String userInput, Scanner in) {
+        Command command;
+        try {
+            command = Parser.parse(userInput);
+            boolean exitProgram = command.execute(deckManager, ui, in);
+            storage.save(deckManager);
+            return exitProgram;
+        } catch (FlashException e) {
+            ui.showError(userInput, e.getMessage());
+            return false;
+        }
+    }
+
 
 }

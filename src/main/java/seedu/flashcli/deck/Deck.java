@@ -1,5 +1,11 @@
 package seedu.flashcli.deck;
 import java.util.ArrayList;
+import java.util.Collections;
+
+import seedu.flashcli.exception.ErrorType;
+import seedu.flashcli.exception.FlashException;
+
+import java.util.List;
 
 public class Deck {
     private String deckName;
@@ -21,30 +27,43 @@ public class Deck {
     
     // takes in the card question and answer, creates a new Card object 
     // and adds it to the cardList
-    public void addCard(String question, String answer){
+    public Card addCard(String question, String answer){
         Card newCard = new Card(question, answer);
         cardList.add(newCard);
-        System.out.println("Card added!");
+        return newCard;
     }
 
     //prints out the index and question of every question in the deck
-    public void listCards(){
-        final String listLine = "%d. %s%n";
-        int count = 1;
-        for (Card card: cardList){
-            System.out.printf(listLine, count, card.getQuestion());
-            count++;
-        }
+    public ArrayList<Card> listCards(){
+        return cardList;
     }
     
     //deletes the card at the index specified by the user
-    public void deleteCard(int cardIndex){
-        cardList.remove(cardIndex);
-        System.out.println("Card deleted!");
+    public Card deleteCard(int cardIndex) throws FlashException{
+        if (cardIndex >= cardList.size() || cardIndex < 0){
+            throw new FlashException(ErrorType.INVALID_INDEX);
+        } else { 
+            Card removed = cardList.get(cardIndex);
+            cardList.remove(cardIndex);
+            return removed;
+        }
     }
 
     //returns the Card object at the specified index of the cardList
-    public Card getCard(int cardIndex){
-        return cardList.get(cardIndex);
+    public Card getCard(int cardIndex) throws FlashException{
+        if (cardIndex >= cardList.size() || cardIndex < 0){
+            throw new FlashException(ErrorType.INVALID_INDEX);
+        } else { 
+            return cardList.get(cardIndex);
+        }
+        
+    }
+
+    public List<Card> getCards(){
+        return Collections.unmodifiableList(cardList);
+    }
+
+    public void clearCards(){
+        cardList.clear();
     }
 }

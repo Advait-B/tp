@@ -4,11 +4,10 @@ import seedu.flashcli.deck.Deck;
 import seedu.flashcli.deck.Card;
 import seedu.flashcli.exception.ErrorType;
 import seedu.flashcli.exception.FlashException;
-import seedu.flashcli.ui.Ui;
 
 public class StudySession {
     private final Deck deck;
-    private int currentIndex = -1;
+    private int currentIndex = 0;
 
     public StudySession(Deck deck) {
         this.deck = deck;
@@ -46,6 +45,6 @@ public class StudySession {
      * Checks if the index has reached or passed the last card.
      */
     public boolean isFinished() {
-        return currentIndex >= deck.getSize() - 1;
+        return currentIndex >= deck.getSize();
     }
 }
