@@ -52,9 +52,7 @@ public class Parser {
         validateCommandName(command);
         logger.log(Level.FINE, "Dispatching command: \"{0}\" with arguments: \"{1}\"",
                 new Object[]{command, arguments});
-        Command result = dispatch(command, arguments);
-        assert result != null : "dispatch() returned null for command: " + command;
-        return result;
+        return dispatch(command, arguments);
     }
 
     /**
@@ -159,7 +157,8 @@ public class Parser {
      * @throws FlashException If arguments are non-empty.
      */
     private static Command requireEmpty(String args, Command command) throws FlashException {
-        if (args != null && !args.trim().isEmpty()) {
+        assert args != null : "requireEmpty called with null args";
+        if (!args.trim().isEmpty()) {
             logger.log(Level.WARNING, "requireEmpty failed: unexpected arguments \"{0}\"", args);
             throw new FlashException(ErrorType.UNEXPECTED_ARGUMENTS);
         }
