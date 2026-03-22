@@ -30,7 +30,7 @@ public class Parser {
         "listDecks", "clearDeck", "study", "exit", "help"
     };
 
-    public Parser() {
+    private Parser() {
 
     }
 
