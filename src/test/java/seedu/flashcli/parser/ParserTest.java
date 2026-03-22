@@ -117,6 +117,14 @@ public class ParserTest {
                     () -> Parser.parse("addCard d/Math d/Science q/What is 2+2? a/4"));
             assertEquals(ErrorType.DUPLICATE_PREFIX, e.getErrorType());
         }
+
+        @Test
+        @DisplayName("addCard with no arguments throws MISSING_DECK")
+        void addCard_noArguments_throwsMissingDeck() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("addCard"));
+            assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
+        }
     }
 
     @Nested
