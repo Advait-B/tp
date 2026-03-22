@@ -127,10 +127,6 @@ public class ArgumentExtractor {
      * @throws FlashException If any prefix is absent or appears more than once.
      */
     private static void validatePrefixes(String arguments, String... prefixes) throws FlashException {
-        if (arguments == null) {
-            logger.log(Level.WARNING, "validatePrefixes called with null arguments");
-            throw new FlashException(ErrorType.INVALID_ARGUMENTS);
-        }
         assert prefixes != null && prefixes.length > 0 : "validatePrefixes prefixes issue";
         for (String prefix : prefixes) {
             if (!arguments.contains(prefix)) {
