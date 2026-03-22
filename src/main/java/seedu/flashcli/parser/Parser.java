@@ -103,7 +103,7 @@ public class Parser {
         case "createDeck":
             return parseCreateDeckCommand(arguments);
         case "listDecks":
-            return new ListDecksCommand();
+            return requireEmpty(arguments, new ListDecksCommand());
         case "clearDeck":
             return parseClearDeckCommand(arguments);
         case "study":

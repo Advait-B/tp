@@ -249,6 +249,14 @@ public class ParserTest {
         void listDecks_valid_doesNotThrow() {
             assertDoesNotThrow(() -> Parser.parse("listDecks"));
         }
+
+        @Test
+        @DisplayName("listDecks with unexpected arguments throws UNEXPECTED_ARGUMENTS")
+        void listDecks_unexpectedArguments_throwsUnexpectedArguments() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("listDecks someArgument"));
+            assertEquals(ErrorType.UNEXPECTED_ARGUMENTS, e.getErrorType());
+        }
     }
 
     @Nested
