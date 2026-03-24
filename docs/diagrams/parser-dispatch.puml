@@ -1,15 +1,48 @@
-@startuml
-'https://plantuml.com/sequence-diagram
+@startuml parser_dispatch
+!pragma teoz true
+hide footbox
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 80
+skinparam style strictuml
+skinparam SequenceGroupBodyBackgroundColor transparent
+skinparam SequenceReferenceBackgroundColor white
+skinparam sequenceArrowThickness 1.5
+skinparam roundcorner 5
+skinparam SequenceBoxBackgroundColor transparent
+skinparam sequenceParticipantBackgroundColor white
+skinparam sequenceLifeLineBorderColor black
 
-autonumber
+hide unlinked
 
-== Initialization ==
+group sd dispatch
+    |||
+    Parser -> Parser : parse*Command(...)
+    activate Parser
+    deactivate Parser
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+    note right of Parser : e.g. parseAddCardCommand(...),\nparseDeckCommand(...), requireEmpty(...)
 
-== Repetition ==
+    |||
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+    Parser -> ArgumentExtractor : parse*Args(...)
+    activate ArgumentExtractor
+
+    ArgumentExtractor -> ArgumentExtractor : validatePrefixes()
+    activate ArgumentExtractor
+    deactivate ArgumentExtractor
+
+    ArgumentExtractor -> ArgumentExtractor : validatePrefixOrder()
+    activate ArgumentExtractor
+    deactivate ArgumentExtractor
+
+    ArgumentExtractor --> Parser : *Args
+    deactivate ArgumentExtractor
+
+    |||
+
+    Parser -> Parser : new *Command(args)
+    activate Parser
+    deactivate Parser
+    |||
+end
 @enduml
