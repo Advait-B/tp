@@ -17,7 +17,7 @@ public class Card {
     }
 
     public Card() {
-        this("", "", 0);
+        this(null, null, null);
     }
     // ------------------------------------
 

@@ -29,7 +29,7 @@ public class StudySession {
         }
 
         ArrayList<Card> tempCards = deck.listCards();
-        Deck tempDeck = new Deck();
+        Deck tempDeck = new Deck(deck.getDeckName());
         tempCards.sort(Comparator.comparing(Card::getConfidenceLevel));
         tempDeck.setCards(tempCards);
         this.deck = tempDeck;
@@ -132,5 +132,9 @@ public class StudySession {
      */
     public Deck getDeck() {
         return deck;
+    }
+
+    public String getDeckName(){
+        return deck.getDeckName();
     }
 }
