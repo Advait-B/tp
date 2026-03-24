@@ -28,7 +28,11 @@ public class StudySession {
             throw new IllegalArgumentException("StudySession: deck must not be null");
         }
 
-        this.deck = deck;
+        ArrayList<Card> tempCards = deck.listCards();
+        Deck tempDeck = new Deck();
+        tempCards.sort(Comparator.comparing(Card::getConfidenceLevel));
+        tempDeck.setCards(tempCards);
+        this.deck = tempDeck;
 
         // Post-condition: index must start at 0
         assert currentIndex == 0 : "currentIndex must be initialised to 0";
