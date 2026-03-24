@@ -3,23 +3,19 @@ package seedu.flashcli.deck;
 public class Card {
     private String question;
     private String answer;
-    private Integer confidenceLevel;
+    private int confidenceLevel;
 
-    public Card(String question, String answer, Integer confidenceLevel){
+    public Card(String question, String answer){
         this.question = question;
         this.answer = answer;
+        this.confidenceLevel = 0;
+    }
+
+    public Card(){}
+
+    public void setConfidenceLevel(Integer confidenceLevel){
         this.confidenceLevel = confidenceLevel;
     }
-
-    // ----- overloaded constructors -----
-    public Card(String question, String answer){
-        this(question, answer, 0);
-    }
-
-    public Card() {
-        this(null, null, null);
-    }
-    // ------------------------------------
 
     public String getQuestion(){
         return question;
