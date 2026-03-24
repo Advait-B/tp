@@ -1,4 +1,5 @@
 @startuml parser_main
+!pragma teoz true
 hide footbox
 skinparam sequenceMessageAlign center
 skinparam ParticipantPadding 80
@@ -13,6 +14,7 @@ skinparam sequenceLifeLineBorderColor black
 
 participant ":FlashCLI\n" as FlashCLI
 participant "<<class>>\nParser" as Parser
+participant "<<class>>\nArgumentExtractor" as ArgumentExtractor
 
 FlashCLI -> Parser : parse(userInput)
 activate Parser
@@ -30,7 +32,7 @@ deactivate Parser
 alt invalid input or invalid arguments
     Parser --> FlashCLI : exception
 else valid input
-    ref over Parser
+    ref over Parser, ArgumentExtractor
         dispatch
     end ref
 
