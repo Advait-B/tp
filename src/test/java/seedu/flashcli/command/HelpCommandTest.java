@@ -29,7 +29,7 @@ public class HelpCommandTest {
     }
 
     @Test
-    public void execute_validDeck_listCards() throws FlashException {
+    public void execute_validProgram_showHelp() throws FlashException {
         DeckManager deckManager = new DeckManager();
         Ui ui = new Ui();
         Scanner in = new Scanner(System.in);
