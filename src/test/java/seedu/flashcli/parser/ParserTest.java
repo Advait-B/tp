@@ -372,4 +372,87 @@ public class ParserTest {
             assertEquals(ErrorType.UNEXPECTED_ARGUMENTS, e.getErrorType());
         }
     }
+
+    @Nested
+    @DisplayName("editCard Command Tests")
+    class EditCardTests {
+ 
+        @Test
+        @DisplayName("editCard valid command parses successfully")
+        void editCard_valid_doesNotThrow() {
+            assertDoesNotThrow(() -> Parser.parse("editCard d/Math i/1 q/What is 3+3? a/6"));
+        }
+ 
+        @Test
+        @DisplayName("editCard missing deck prefix throws MISSING_DECK")
+        void editCard_missingDeckPrefix_throwsMissingDeck() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("editCard i/1 q/What is 3+3? a/6"));
+            assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
+        }
+ 
+        @Test
+        @DisplayName("editCard missing index prefix throws MISSING_INDEX")
+        void editCard_missingIndexPrefix_throwsMissingIndex() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("editCard d/Math q/What is 3+3? a/6"));
+            assertEquals(ErrorType.MISSING_INDEX, e.getErrorType());
+        }
+ 
+        @Test
+        @DisplayName("editCard missing question prefix throws MISSING_QUESTION")
+        void editCard_missingQuestionPrefix_throwsMissingQuestion() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("editCard d/Math i/1 a/6"));
+            assertEquals(ErrorType.MISSING_QUESTION, e.getErrorType());
+        }
+ 
+        @Test
+        @DisplayName("editCard missing answer prefix throws MISSING_ANSWER")
+        void editCard_missingAnswerPrefix_throwsMissingAnswer() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("editCard d/Math i/1 q/What is 3+3?"));
+            assertEquals(ErrorType.MISSING_ANSWER, e.getErrorType());
+        }
+ 
+        @Test
+        @DisplayName("editCard wrong prefix order throws INVALID_ARGUMENTS")
+        void editCard_wrongPrefixOrder_throwsInvalidArguments() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("editCard i/1 d/Math q/What is 3+3? a/6"));
+            assertEquals(ErrorType.INVALID_ARGUMENTS, e.getErrorType());
+        }
+ 
+        @Test
+        @DisplayName("editCard non-numeric index throws INVALID_INDEX")
+        void editCard_nonNumericIndex_throwsInvalidIndex() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("editCard d/Math i/abc q/What is 3+3? a/6"));
+            assertEquals(ErrorType.INVALID_INDEX, e.getErrorType());
+        }
+ 
+        @Test
+        @DisplayName("editCard empty deck name throws MISSING_DECK")
+        void editCard_emptyDeckName_throwsMissingDeck() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("editCard d/ i/1 q/What is 3+3? a/6"));
+            assertEquals(ErrorType.MISSING_DECK, e.getErrorType());
+        }
+ 
+        @Test
+        @DisplayName("editCard empty question throws MISSING_QUESTION")
+        void editCard_emptyQuestion_throwsMissingQuestion() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("editCard d/Math i/1 q/ a/6"));
+            assertEquals(ErrorType.MISSING_QUESTION, e.getErrorType());
+        }
+ 
+        @Test
+        @DisplayName("editCard empty answer throws MISSING_ANSWER")
+        void editCard_emptyAnswer_throwsMissingAnswer() {
+            FlashException e = assertThrows(FlashException.class,
+                    () -> Parser.parse("editCard d/Math i/1 q/What is 3+3? a/"));
+            assertEquals(ErrorType.MISSING_ANSWER, e.getErrorType());
+        }
+    }
 }

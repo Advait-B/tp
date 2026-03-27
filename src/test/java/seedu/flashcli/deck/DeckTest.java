@@ -3,6 +3,7 @@ package seedu.flashcli.deck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.flashcli.exception.FlashException;
+import seedu.flashcli.exception.ErrorType;
 
 import java.util.List;
 
@@ -104,5 +105,68 @@ class DeckTest {
         assertThrows(UnsupportedOperationException.class, () -> {
             unmodifiableList.add(new Card("Q2", "A2"));
         });
+    }
+
+    @Test
+    void editCard_validIndex_updatesQuestion() throws FlashException {
+        deck.addCard("Original question?", "Original answer");
+        deck.editCard(0, "New question?", "Original answer");
+        assertEquals("New question?", deck.getCard(0).getQuestion());
+    }
+ 
+    @Test
+    void editCard_validIndex_updatesAnswer() throws FlashException {
+        deck.addCard("Original question?", "Original answer");
+        deck.editCard(0, "Original question?", "New answer");
+        assertEquals("New answer", deck.getCard(0).getAnswer());
+    }
+ 
+    @Test
+    void editCard_validIndex_updatesBothFields() throws FlashException {
+        deck.addCard("Original question?", "Original answer");
+        deck.editCard(0, "New question?", "New answer");
+        Card edited = deck.getCard(0);
+        assertEquals("New question?", edited.getQuestion());
+        assertEquals("New answer", edited.getAnswer());
+    }
+ 
+    @Test
+    void editCard_validIndex_doesNotChangeDeckSize() throws FlashException {
+        deck.addCard("Original question?", "Original answer");
+        deck.editCard(0, "New question?", "New answer");
+        assertEquals(1, deck.getSize());
+    }
+ 
+    @Test
+    void editCard_validIndex_returnsEditedCard() throws FlashException {
+        deck.addCard("Original question?", "Original answer");
+        Card returned = deck.editCard(0, "New question?", "New answer");
+        assertEquals("New question?", returned.getQuestion());
+        assertEquals("New answer", returned.getAnswer());
+    }
+ 
+    @Test
+    void editCard_outOfBoundsIndex_throwsFlashException() {
+        deck.addCard("Q1", "A1");
+        FlashException e = assertThrows(FlashException.class,
+                () -> deck.editCard(5, "Q?", "A"));
+        assertEquals(ErrorType.INVALID_INDEX, e.getErrorType());
+    }
+ 
+    @Test
+    void editCard_negativeIndex_throwsFlashException() {
+        deck.addCard("Q1", "A1");
+        FlashException e = assertThrows(FlashException.class,
+                () -> deck.editCard(-1, "Q?", "A"));
+        assertEquals(ErrorType.INVALID_INDEX, e.getErrorType());
+    }
+ 
+    @Test
+    void editCard_multipleCards_onlyEditsTargetCard() throws FlashException {
+        deck.addCard("First question?", "First answer");
+        deck.addCard("Second question?", "Second answer");
+        deck.editCard(0, "Edited question?", "Edited answer");
+        assertEquals("Edited question?", deck.getCard(0).getQuestion());
+        assertEquals("Second question?", deck.getCard(1).getQuestion());
     }
 }
