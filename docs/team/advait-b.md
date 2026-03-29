@@ -10,3 +10,9 @@ FlashCLI is a lightweight command-line flashcard application for students who pr
 ### Code Contributed
 
 [RepoSense Dashboard](https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=advait-b&breakdown=true)
+
+### New Feature: Command Parsing and Extraction
+
+- **What it does:** Parses raw user input from the command line and extracts the corresponding command type and its arguments. It serves as the entry point for translating input into executable application logic.
+- **Justification:** Without a robust parser, the application would be unable to correctly interpret varied user inputs, making reliable command execution impossible. Centralising this logic ensures all commands are handled consistently and predictably.
+- **Highlights:** The parser was designed as a stateless utility class, adhering to the single responsibility principle by handling only parsing concerns. Implementing it required careful consideration of edge cases.
