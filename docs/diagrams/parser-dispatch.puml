@@ -16,6 +16,8 @@ hide unlinked
 
 group sd dispatch
     |||
+    activate Parser
+
     Parser -> Parser : parse*Command(...)
     activate Parser
     deactivate Parser
@@ -42,6 +44,9 @@ group sd dispatch
 
     Parser -> Parser : new *Command(args)
     activate Parser
+    deactivate Parser
+
+    |||
     deactivate Parser
     |||
 end

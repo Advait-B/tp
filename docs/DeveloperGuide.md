@@ -6,9 +6,27 @@
 
 ## Design & implementation
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+FlashCLI is organised into six distinct layers, each with a clearly defined responsibility.
+The architecture diagram below shows the relationships between all major classes.
 
-### Parser
+![Architecture Diagram](diagrams/architecture.png)
+
+- **Entry point** - `FlashCLI` initialises the application, owns the `DeckManager` and `Storage`
+  instances, and drives the main input loop.
+- **UI** - `Ui` handles all terminal output, keeping display logic separate from business logic.
+- **Parser** - `Parser` and `ArgumentExtractor` translate raw user input into typed `Command`
+  objects, throwing `FlashException` on any invalid input.
+- **Command** - The `Command` interface defines a single `execute()` method. Each concrete
+  subclass (e.g. `AddCardCommand`, `StudyCommand`) encapsulates the logic for one user action.
+- **Deck** - `DeckManager` owns a collection of `Deck` objects, each of which contains
+  zero or more `Card` objects. This layer holds all flashcard data at runtime.
+- **Study** - `StudyCommand` delegates to `SessionManager`, which manages a single active
+  `StudySession`. Cards are ordered by ascending confidence level so weaker cards are drilled first.
+- **Storage** - `Storage` persists the full `DeckManager` state to `data/storage.json` after
+  every command. `HistoryManager` maintains versioned snapshots in `data/history/`.
+- **Exception** - `FlashException` wraps an `ErrorType` enum value, giving every error a
+  consistent message and a single catch point in `FlashCLI.executeCommand()`.
+### Parser Module
 
 The Parser component is responsible for converting raw user input into executable `Command` objects.
 It is designed as a `<<Facade>>`, exposing a single static entry point `Parser.parse(userInput)`
@@ -48,6 +66,27 @@ For commands that require arguments, the helper delegates to `ArgumentExtractor.
 which validates prefixes, validates their order, extracts the values, and returns a typed args object.
 `Parser` then constructs and returns the appropriate `Command`.
 
+### Parser Design Rationale
+
+The `Parser` and `ArgumentExtractor` classes were designed with the following principles in mind:
+
+* **Single Responsibility Principle (SRP):** `Parser` focuses solely on converting raw user input
+  into a typed `Command` object. It has no knowledge of how `Ui` displays output, how `DeckManager`
+  stores data, or how `Storage` persists state. `ArgumentExtractor` is further split out to handle
+  all prefix validation and value extraction, keeping `Parser` itself thin. This separation makes
+  both classes independently testable and reusable.
+
+* **Defensive Programming:** `Parser` is the application's first line of defence against malformed
+  input. It validates that input is non-blank, that the command keyword is recognised, that all
+  required prefixes are present exactly once, and that prefixes appear in the correct order - all
+  before any command logic executes. Any violation throws a `FlashException` immediately. This means
+  every `Command` object that reaches `FlashCLI.executeCommand()` is guaranteed to be well-formed,
+  and no downstream class needs to re-validate its inputs.
+
+* **Stateless Utility:** `Parser` and `ArgumentExtractor` are implemented as stateless classes with
+  a `private` constructor and all-`static` methods. There is no need to instantiate either class,
+  which simplifies the design and makes the parsing pipeline easy to reason about - given the same
+  input string, `Parser.parse()` always produces the same `Command`.
 
 ### Storage
 
@@ -127,6 +166,11 @@ The sequence diagram below shows the enhanced flow when the application saves da
 | v1.0    | Student                     | revise flashcards quickly without leaving my CLI workflow | I maintain my productivity environment        |
 | v1.0    | Student                     | have my data stored locally                          | I remain in control of my revision material        |
 | v1.0    | Student learning new content| delete flashcards that are no longer useful          | outdated content does not distract me              |
+| v2.0    | Student revising for an exam| quiz myself with a random subset of the cards        | I can vary my practice                             |
+| v2.0    | Student revising for an exam| revisit flashcards I struggled with                  | I can focus on weak areas                          |
+| v2.0    | Student learning new content| edit flashcards                                      | I can refine wording as my understanding improves  |
+| v2.0    | Student starting revision   | mark my confidence when inputting flashcards         | I can see how my confidence level changed during revision |
+| v2.0    | Student revising for an exam| see statistics about my flashcard collection         | I can track my study progress                      |
 
 ## Non-Functional Requirements
 
