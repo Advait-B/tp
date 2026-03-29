@@ -52,6 +52,24 @@ Example of usage:
 
 ## Command Summary
 
-{Give a 'cheat sheet' of commands here}
+| Command | Format | Example |
+|---------|--------|---------|
+| `help` | `help` | `help` |
+| `createDeck` | `createDeck d/<DECK_NAME>` | `createDeck d/CS2113 Finals` |
+| `listDecks` | `listDecks` | `listDecks` |
+| `clearDeck` | `clearDeck d/<DECK_NAME>` | `clearDeck d/CS2113 Finals` |
+| `deleteDeck` | `deleteDeck d/<DECK_NAME>` | `deleteDeck d/Linear Algebra` |
+| `addCard` | `addCard d/<DECK_NAME> q/<QUESTION> a/<ANSWER>` | `addCard d/CS2113 Finals q/What does OOP stand for? a/Object-Oriented Programming` |
+| `listCards` | `listCards d/<DECK_NAME>` | `listCards d/CS2113 Finals` |
+| `deleteCard` | `deleteCard d/<DECK_NAME> i/<INDEX>` | `deleteCard d/CS2113 Finals i/2` |
+| `editCard` | `editCard d/<DECK_NAME> i/<INDEX> q/<QUESTION> a/<ANSWER>` | `editCard d/CS2113 Finals i/1 q/What does OOP stand for? a/Object-Oriented Programming` |
+| `study` | `study d/<DECK_NAME>` | `study d/CS2113 Finals` |
+| `exit` | `exit` | `exit` |
 
-* Add todo `todo n/TODO_NAME d/DEADLINE`
+**Study session controls** (only valid while a session is active):
+
+| Input | Action |
+|-------|--------|
+| Enter (empty line) | Reveal the current card's answer / advance to the next card |
+| `1` – `5` | Submit your confidence rating for the current card |
+| `q` | Quit the session early and return to the main prompt |
