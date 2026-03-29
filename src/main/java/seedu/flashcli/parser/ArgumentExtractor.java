@@ -63,7 +63,7 @@ public class ArgumentExtractor {
         // Ensure each string is non-empty
         validateNonEmpty(deckName, ErrorType.MISSING_DECK);
         validateNonEmpty(question, ErrorType.MISSING_QUESTION);
-        validateNonEmpty(answer,   ErrorType.MISSING_ANSWER);
+        validateNonEmpty(answer, ErrorType.MISSING_ANSWER);
         logger.log(Level.FINE, "parseAddCardArgs succeeded");
         // Return the AddCardArgs
         return new AddCardArgs(deckName, question, answer);
