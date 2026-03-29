@@ -92,7 +92,13 @@ public class ArgumentExtractor {
         return new DeleteCardArgs(deckName, cardIndex);
     }
 
-    // edit card args
+    /**
+     * Parses the argument string for the editCard command.
+     * Expects d/, i/, q/, and a/ in that order.
+     *
+     * @return EditCardArgs containing deck name, index, question, and answer.
+     * @throws FlashException If any prefix or extracted value issue detected.
+     */
     public static EditCardArgs parseEditCardArgs(String arguments) throws FlashException{
         logger.log(Level.FINE, "parseEditCardArgs called with: \"{0}\"", arguments);
         validatePrefixes(arguments, DECK_PREFIX, INDEX_PREFIX, QUESTION_PREFIX, ANSWER_PREFIX);
