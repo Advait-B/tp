@@ -123,7 +123,6 @@ public class ArgumentExtractor {
      * @throws FlashException If indexStr cannot be parsed as an integer.
      */
     private static int parseIndex(String indexStr) throws FlashException {
-        assert indexStr != null && !indexStr.isEmpty() : "parseIndex called with blank indexStr";
         try {
             int result = Integer.parseInt(indexStr) - 1;
             if (result < 0) {
@@ -188,7 +187,6 @@ public class ArgumentExtractor {
      * @throws FlashException If value is null or empty.
      */
     private static void validateNonEmpty(String value, ErrorType errorType) throws FlashException {
-        assert value != null : "validateNonEmpty called with null value";
         if (value.isEmpty()) {
             logger.log(Level.WARNING, "validateNonEmpty failed for ErrorType: {0}", errorType);
             throw new FlashException(errorType);
@@ -199,7 +197,7 @@ public class ArgumentExtractor {
      * Returns a FlashException mapped to the appropriate ErrorType.
      */
     private static FlashException missingErrorFor(String prefix) {
-        assert prefix != null : "missingErrorFor prefix issue";
+
         switch (prefix) {
         case DECK_PREFIX: return new FlashException(ErrorType.MISSING_DECK);
         case QUESTION_PREFIX: return new FlashException(ErrorType.MISSING_QUESTION);
@@ -213,10 +211,6 @@ public class ArgumentExtractor {
      * Extracts and trims the substring between startPrefix and endPrefix.
      */
     private static String extractBetween(String arguments, String startPrefix, String endPrefix) {
-        assert arguments.contains(startPrefix) : "extractBetween startPrefix issue";
-        assert arguments.contains(endPrefix) : "extractBetween endPrefix issue";
-        assert arguments.indexOf(startPrefix) + PREFIX_LEN
-                <= arguments.indexOf(endPrefix) : "extractBetween index issue";
         int start = arguments.indexOf(startPrefix) + PREFIX_LEN;
         int end = arguments.indexOf(endPrefix);
         return arguments.substring(start, end).trim();
@@ -226,7 +220,6 @@ public class ArgumentExtractor {
      * Extracts and trims the substring from endPrefix till the end of the string.
      */
     private static String extractAfter(String arguments, String prefix) {
-        assert arguments.contains(prefix) : "extractAfter prefix issue";
         int start = arguments.indexOf(prefix) + PREFIX_LEN;
         return arguments.substring(start).trim();
     }
