@@ -6,10 +6,25 @@ FlashCLI is a lightweight command-line flashcard application for students who pr
 
 ## Quick Start
 
-{Give steps to get started quickly}
+1. **Install Java 17.** FlashCLI requires Java 17 or later. Confirm your version with:
+   ```
+   java -version
+   ```
+2. **Download FlashCLI.** Either clone the repository or download the pre-built JAR from the releases page and place it anywhere on your computer.
+3. **Open a terminal** at the project root (if you cloned) or the folder containing the JAR.
+4. **Run FlashCLI.**
+    * **From source:**
+        * macOS / Linux: `./gradlew run`
+        * Windows: `.\gradlew.bat run`
+    * **From JAR:** `java -jar flashcli.jar`
 
-1. Ensure that you have Java 17 or above installed.
-1. Down the latest version of `Duke` from [here](http://link.to/duke).
+   You should see the welcome message:
+   ```
+   Welcome to FlashCLI!
+   ```
+5. Type `help` to see every available command, then start by creating your first deck with `createDeck`.
+
+**Data persistence:** FlashCLI automatically saves all your decks and cards to `data/storage.json` after every command. You do not need to save manually.
 
 ## Features 
 
