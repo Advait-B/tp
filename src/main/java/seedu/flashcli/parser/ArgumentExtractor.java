@@ -63,7 +63,7 @@ public class ArgumentExtractor {
         // Ensure each string is non-empty
         validateNonEmpty(deckName, ErrorType.MISSING_DECK);
         validateNonEmpty(question, ErrorType.MISSING_QUESTION);
-        validateNonEmpty(answer,   ErrorType.MISSING_ANSWER);
+        validateNonEmpty(answer, ErrorType.MISSING_ANSWER);
         logger.log(Level.FINE, "parseAddCardArgs succeeded");
         // Return the AddCardArgs
         return new AddCardArgs(deckName, question, answer);
@@ -92,8 +92,14 @@ public class ArgumentExtractor {
         return new DeleteCardArgs(deckName, cardIndex);
     }
 
-    // edit card args
-    public static EditCardArgs parseEditCardArgs(String arguments) throws FlashException{
+    /**
+     * Parses the argument string for the editCard command.
+     * Expects d/, i/, q/, and a/ in that order.
+     *
+     * @return EditCardArgs containing deck name, index, question, and answer.
+     * @throws FlashException If any prefix or extracted value issue detected.
+     */
+    public static EditCardArgs parseEditCardArgs(String arguments) throws FlashException {
         logger.log(Level.FINE, "parseEditCardArgs called with: \"{0}\"", arguments);
         validatePrefixes(arguments, DECK_PREFIX, INDEX_PREFIX, QUESTION_PREFIX, ANSWER_PREFIX);
         validatePrefixOrder(arguments, DECK_PREFIX, INDEX_PREFIX, QUESTION_PREFIX, ANSWER_PREFIX);
@@ -117,7 +123,6 @@ public class ArgumentExtractor {
      * @throws FlashException If indexStr cannot be parsed as an integer.
      */
     private static int parseIndex(String indexStr) throws FlashException {
-        assert indexStr != null && !indexStr.isEmpty() : "parseIndex called with blank indexStr";
         try {
             int result = Integer.parseInt(indexStr) - 1;
             if (result < 0) {
@@ -142,11 +147,13 @@ public class ArgumentExtractor {
         assert arguments != null : "validatePrefixes called with null arguments";
         for (String prefix : prefixes) {
             if (!arguments.contains(prefix)) {
-                logger.log(Level.WARNING, "validatePrefixes failed: prefix \"{0}\" not found in \"{1}\"");
+                logger.log(Level.WARNING, "validatePrefixes failed: prefix \"{0}\" not found in \"{1}\"",
+                        new Object[]{prefix, arguments});
                 throw missingErrorFor(prefix);
             }
             if (arguments.indexOf(prefix) != arguments.lastIndexOf(prefix)) {
-                logger.log(Level.WARNING, "validatePrefixes failed: prefix \"{0}\" appears more than once");
+                logger.log(Level.WARNING, "validatePrefixes failed: prefix \"{0}\" appears more than once",
+                        new Object[]{prefix, arguments});
                 throw new FlashException(ErrorType.DUPLICATE_PREFIX);
             }
         }
@@ -164,7 +171,8 @@ public class ArgumentExtractor {
         for (String prefix : prefixes) {
             int index = arguments.indexOf(prefix);
             if (index <= last) {
-                logger.log(Level.WARNING, "validatePrefixOrder failed: prefix \"{0}\" out of order in \"{1}\"");
+                logger.log(Level.WARNING, "validatePrefixOrder failed: prefix \"{0}\" out of order in \"{1}\"",
+                        new Object[]{prefix, arguments});
                 throw new FlashException(ErrorType.INVALID_ARGUMENTS);
             }
             last = index;
@@ -179,7 +187,6 @@ public class ArgumentExtractor {
      * @throws FlashException If value is null or empty.
      */
     private static void validateNonEmpty(String value, ErrorType errorType) throws FlashException {
-        assert value != null : "validateNonEmpty called with null value";
         if (value.isEmpty()) {
             logger.log(Level.WARNING, "validateNonEmpty failed for ErrorType: {0}", errorType);
             throw new FlashException(errorType);
@@ -187,10 +194,10 @@ public class ArgumentExtractor {
     }
 
     /**
-     * Returns a FlashException mapped to the appropriate ErrorType
+     * Returns a FlashException mapped to the appropriate ErrorType.
      */
     private static FlashException missingErrorFor(String prefix) {
-        assert prefix != null : "missingErrorFor prefix issue";
+
         switch (prefix) {
         case DECK_PREFIX: return new FlashException(ErrorType.MISSING_DECK);
         case QUESTION_PREFIX: return new FlashException(ErrorType.MISSING_QUESTION);
@@ -204,12 +211,8 @@ public class ArgumentExtractor {
      * Extracts and trims the substring between startPrefix and endPrefix.
      */
     private static String extractBetween(String arguments, String startPrefix, String endPrefix) {
-        assert arguments.contains(startPrefix) : "extractBetween startPrefix issue";
-        assert arguments.contains(endPrefix) : "extractBetween endPrefix issue";
-        assert arguments.indexOf(startPrefix) + PREFIX_LEN
-                <= arguments.indexOf(endPrefix) : "extractBetween index issue";
         int start = arguments.indexOf(startPrefix) + PREFIX_LEN;
-        int end   = arguments.indexOf(endPrefix);
+        int end = arguments.indexOf(endPrefix);
         return arguments.substring(start, end).trim();
     }
 
@@ -217,9 +220,7 @@ public class ArgumentExtractor {
      * Extracts and trims the substring from endPrefix till the end of the string.
      */
     private static String extractAfter(String arguments, String prefix) {
-        assert arguments.contains(prefix) : "extractAfter prefix issue";
         int start = arguments.indexOf(prefix) + PREFIX_LEN;
         return arguments.substring(start).trim();
     }
-
 }
