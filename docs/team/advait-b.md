@@ -1,4 +1,4 @@
-# John Doe - Project Portfolio Page
+# Advait - Project Portfolio Page
 
 ## Overview
 
