@@ -218,7 +218,7 @@ public class ArgumentExtractor {
         assert arguments.indexOf(startPrefix) + PREFIX_LEN
                 <= arguments.indexOf(endPrefix) : "extractBetween index issue";
         int start = arguments.indexOf(startPrefix) + PREFIX_LEN;
-        int end   = arguments.indexOf(endPrefix);
+        int end = arguments.indexOf(endPrefix);
         return arguments.substring(start, end).trim();
     }
 
