@@ -36,3 +36,8 @@ FlashCLI is a lightweight command-line flashcard application for students who pr
 - Added deadlines to all milestones to keep the team on schedule.
 - Fixed general bugs to ensure the project consistently passed automated build tests throughout development ([#62](https://github.com/AY2526S2-CS2113-T10-1/tp/pull/62), [#64](https://github.com/AY2526S2-CS2113-T10-1/tp/pull/64), [#65](https://github.com/AY2526S2-CS2113-T10-1/tp/pull/65))
 - Managed GitHub releases for v2.0.
+
+### Mentoring Contributions
+
+- Added non-trivial PR review feedback on these PRs: [#2](https://github.com/AY2526S2-CS2113-T10-1/tp/pull/2), [#5](https://github.com/AY2526S2-CS2113-T10-1/tp/pull/5), [#54](https://github.com/AY2526S2-CS2113-T10-1/tp/pull/54), [#79](https://github.com/AY2526S2-CS2113-T10-1/tp/pull/79)
+- Proactively identified code design issues prior to v2.0 and documented actionable recommendations for adhering to SRP, SOC, LSP in a shared Google Doc distributed to the team.
