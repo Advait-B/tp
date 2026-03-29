@@ -6,8 +6,26 @@
 
 ## Design & implementation
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+FlashCLI is organised into six distinct layers, each with a clearly defined responsibility.
+The architecture diagram below shows the relationships between all major classes.
 
+![Architecture Diagram](diagrams/architecture.png)
+
+- **Entry point** - `FlashCLI` initialises the application, owns the `DeckManager` and `Storage`
+  instances, and drives the main input loop.
+- **UI** - `Ui` handles all terminal output, keeping display logic separate from business logic.
+- **Parser** - `Parser` and `ArgumentExtractor` translate raw user input into typed `Command`
+  objects, throwing `FlashException` on any invalid input.
+- **Command** - The `Command` interface defines a single `execute()` method. Each concrete
+  subclass (e.g. `AddCardCommand`, `StudyCommand`) encapsulates the logic for one user action.
+- **Deck** - `DeckManager` owns a collection of `Deck` objects, each of which contains
+  zero or more `Card` objects. This layer holds all flashcard data at runtime.
+- **Study** - `StudyCommand` delegates to `SessionManager`, which manages a single active
+  `StudySession`. Cards are ordered by ascending confidence level so weaker cards are drilled first.
+- **Storage** - `Storage` persists the full `DeckManager` state to `data/storage.json` after
+  every command. `HistoryManager` maintains versioned snapshots in `data/history/`.
+- **Exception** - `FlashException` wraps an `ErrorType` enum value, giving every error a
+  consistent message and a single catch point in `FlashCLI.executeCommand()`.
 ### Parser
 
 The Parser component is responsible for converting raw user input into executable `Command` objects.
