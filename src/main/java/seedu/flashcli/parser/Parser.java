@@ -43,7 +43,6 @@ public class Parser {
      * @return The command corresponding to the userInput.
      * @throws FlashException if blank input, unrecognised command or invalid arguments.
      */
-
     public static Command parse(String userInput) throws FlashException {
         logger.log(Level.FINE, "parse() called with: \"{0}\"", userInput == null ? "null" : userInput);
         validateInput(userInput);

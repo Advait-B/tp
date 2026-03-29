@@ -196,7 +196,7 @@ public class ArgumentExtractor {
     }
 
     /**
-     * Returns a FlashException mapped to the appropriate ErrorType
+     * Returns a FlashException mapped to the appropriate ErrorType.
      */
     private static FlashException missingErrorFor(String prefix) {
         assert prefix != null : "missingErrorFor prefix issue";
@@ -230,5 +230,4 @@ public class ArgumentExtractor {
         int start = arguments.indexOf(prefix) + PREFIX_LEN;
         return arguments.substring(start).trim();
     }
-
 }
