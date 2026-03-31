@@ -470,6 +470,196 @@ features like filtering and improved study strategies.
 Support for adding multiple cards in a single command (e.g. via file input) could improve
 usability for users importing large sets of flashcards.
 
+
+## Delete Card
+
+The `DeleteCardCommand` feature allows the user to remove a specific flashcard from a deck
+by specifying the deck name and the index of the card. Similar to `AddCardCommand`, this
+feature spans both parsing and execution, ensuring that only valid inputs are processed and
+that changes are persisted after execution.
+
+#### Class Structure
+
+The diagram below shows the main classes involved in the `DeleteCardCommand` feature and
+their relationships.
+
+![DeleteCardCommand Class Diagram](diagrams/delete_card_command_class.png)
+
+**Key classes:**
+
+* `Command` - interface that defines the common `execute(deckManager, ui, in)` method
+* `DeleteCardCommand` - concrete command that stores the `deckName` and `cardIndex`
+* `DeleteCardArgs` - parsed data object returned by the parser
+* `DeckManager` - provides access to the target `Deck`
+* `Deck` - manages the list of `Card` objects and performs deletion
+* `Ui` - displays the result of the deletion
+* `Storage` - persists the updated `DeckManager` after execution
+* `FlashException` - thrown for invalid deck or index
+
+#### Sequence Flow
+
+The sequence diagram below shows the full flow of the `deletecard` feature.
+
+![DeleteCardCommand Sequence Diagram](diagrams/delete_card_sequence.png)
+
+The flow can be divided into three stages:
+
+**1. Parsing**
+
+1. The user enters the `deletecard` command into `FlashCLI`
+2. `FlashCLI` calls `Parser.parse(userInput)`
+3. `Parser` delegates to `ArgumentExtractor.parseDeleteCardArgs(...)`
+4. Arguments are validated and returned as a `DeleteCardArgs` object
+5. `Parser` constructs and returns a `DeleteCardCommand`
+
+---
+
+**2. Execution**
+
+1. `FlashCLI` calls `DeleteCardCommand.execute(deckManager, ui, in)`
+2. `DeleteCardCommand` calls `deckManager.getDeck(deckName)`
+3. An `alt` branch is evaluated:
+
+  * **If the deck exists && valid index:**
+
+    1. The command calls `deck.removeCard(cardIndex)`
+    2. The removed `Card` is returned
+    3. `ui.showDeletedCard(card, deckName)` displays a success message
+  * **else:**
+
+    * A `FlashException` is thrown
+
+
+---
+
+**3. Persistence**
+
+After successful execution:
+
+1. `FlashCLI` calls `storage.save(deckManager)`
+2. `Storage` writes the updated state to disk (and triggers history backup if enabled)
+
+This ensures that deleted cards are permanently removed across sessions.
+
+---
+
+#### Design Rationale
+
+**Encapsulation of Command Logic**
+
+All logic related to deleting a card is encapsulated within `DeleteCardCommand`, following
+the Command pattern. This ensures that each command is self-contained and independent.
+
+---
+
+**Separation of Concerns**
+
+* `Parser` handles input validation and object construction
+* `DeleteCardCommand` handles business logic
+* `DeckManager` and `Deck` handle data storage
+* `Ui` handles output formatting
+* `Storage` handles persistence
+
+This separation improves modularity and maintainability.
+
+---
+
+**Defensive Programming**
+
+* Inputs are validated during parsing to ensure correct format
+* Invalid deck names and indices are handled via `FlashException`
+
+---
+
+**Consistency with Other Commands**
+
+`DeleteCardCommand` follows the same execution pattern as other commands:
+
+1. Retrieve the deck
+2. Perform the operation on the domain model
+3. Display output via `Ui`
+4. Persist changes via `Storage`
+
+This consistency simplifies understanding and extension of the system.
+
+---
+
+#### Additional Design Considerations
+
+**Early Validation via Parser**
+
+All argument validation is performed before constructing the command. This ensures that
+`DeleteCardCommand` operates only on valid data and does not duplicate parsing logic.
+
+---
+
+**Delegation to Domain Classes**
+
+The command delegates deletion to the `Deck` class rather than directly modifying internal
+data structures, preserving encapsulation and clear ownership.
+
+---
+
+**Persistence Outside Command**
+
+Persistence is handled by `FlashCLI`, not the command itself. This avoids coupling command
+logic with storage concerns and improves flexibility.
+
+---
+
+#### Alternatives Considered
+
+**Direct Data Manipulation in Command**
+
+Allowing the command to directly manipulate internal card lists was rejected as it breaks
+encapsulation and increases coupling.
+
+---
+
+**Validation Inside Command**
+
+Performing validation inside `DeleteCardCommand` was rejected because it duplicates logic
+handled by the parser and reduces code clarity.
+
+---
+
+**Storage Handling Inside Command**
+
+Calling `storage.save()` inside the command was rejected as it mixes concerns and makes
+commands harder to test.
+
+---
+
+#### Future Improvements
+
+**Confirmation Before Deletion**
+
+A confirmation step (e.g. `Are you sure?`) could be added to prevent accidental deletions.
+
+---
+
+**Bulk Deletion Support**
+
+Support for deleting multiple cards in a single command could improve efficiency for users
+managing large decks.
+
+---
+
+**Soft Deletion**
+
+Instead of permanently removing cards, a soft-delete mechanism could allow recovery of
+recently deleted cards.
+
+---
+
+**Improved Index Handling**
+
+Support for more flexible indexing (e.g. ranges or filtering) could make deletion more
+powerful and user-friendly.
+
+
+
+
 ## Product scope
 ### Target user profile
 
