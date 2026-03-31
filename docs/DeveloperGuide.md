@@ -1,8 +1,24 @@
 # Developer Guide
 
 ## Acknowledgements
+FlashCLI was built from scratch as an original project. The following sources provided
+inspiration for certain features and design decisions:
 
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+**Anki** ([https://apps.ankiweb.net](https://apps.ankiweb.net))
+- The confidence-based card ordering feature in FlashCLI's Study module was inspired by
+  Anki's spaced repetition system, where cards are scheduled based on how well the user
+  knows them. Our implementation is entirely new and uses a simpler ascending confidence
+  sort rather than Anki's full SM-2 spaced repetition algorithm.
+- The concept of storing a per-card confidence/difficulty rating that persists across
+  sessions was also drawn from Anki's card rating system (Again / Hard / Good / Easy).
+  Our implementation uses a 1–5 integer scale instead.
+
+**Quizlet** ([https://quizlet.com](https://quizlet.com))
+- The basic flashcard deck-and-card data model (decks containing question-answer card pairs)
+  was inspired by Quizlet's sets and terms structure. Our implementation is entirely new.
+- The study session workflow of showing a question, waiting for user input, then revealing
+  the answer, was inspired by Quizlet's Learn mode. Our implementation is entirely new
+  and adapted for a CLI environment.
 
 ## Design & implementation
 
