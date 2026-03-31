@@ -741,6 +741,16 @@ powerful and user-friendly.
 
 ## Glossary
 
+* **Deck** – A collection of flashcards grouped under a specific topic or subject.
+* **Card** – A single flashcard containing a question and an answer.
+* **DeckManager** – The component that manages all decks and provides access to them at runtime.
+* **Command** – An executable action triggered by user input (e.g., add card, delete card).
+* **Parser** – Converts raw user input into a structured `Command` object.
+* **Ui** – Handles all output displayed to the user in the CLI.
+* **Storage** – Responsible for saving and loading application data to/from disk.
+* **Study Session** – A session where users review cards in order of increasing difficulty/confidence.
+* **Confidence Level** – A numerical rating (e.g., 1–5) indicating how well a user knows a card.
+* **FlashException** – A custom exception used to handle user-facing errors consistently.
 
 
 ## Instructions for Manual Testing
