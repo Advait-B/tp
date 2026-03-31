@@ -696,12 +696,51 @@ powerful and user-friendly.
 
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+1. **Usability**
+
+  * The application should be usable entirely via a Command Line Interface (CLI) with clear and consistent command formats.
+  * Error messages should be descriptive and guide the user to correct input formats.
+
+2. **Performance**
+
+  * The application should respond to user commands within 1 second under normal usage.
+  * Operations such as adding, deleting, and listing cards should remain efficient for decks with up to 1,000 cards.
+
+3. **Reliability**
+
+  * The application should not crash due to invalid user input; all errors must be handled using `FlashException`.
+  * Data should be automatically saved after every successful command execution.
+
+4. **Data Persistence**
+
+  * All user data must be stored locally and persist across sessions.
+  * Historical backups should be created automatically before overwriting existing data.
+
+5. **Portability**
+
+  * The application should run on any system with Java 17 installed without requiring additional setup.
+
+6. **Maintainability**
+
+  * The codebase should follow modular design principles (e.g., separation of concerns across Parser, Command, UI, Storage).
+  * Components should be independently testable.
+
+7. **Scalability**
+
+  * The system should handle multiple decks and a moderate number of cards per deck without significant performance degradation.
+
+8. **Security**
+
+  * User data should be stored locally and not transmitted over any network.
+  * The application should not require internet access to function.
+
+9. **Compatibility**
+
+  * The application should be compatible with major operating systems (Windows, macOS, Linux) that support Java 17.
+
 
 ## Glossary
 
-* *glossary item* - Definition
 
-## Instructions for manual testing
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+## Instructions for Manual Testing
