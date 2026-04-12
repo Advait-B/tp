@@ -273,7 +273,7 @@ Format: `study d/DECK_NAME`
     - `5` — Knew it perfectly
 4. FlashCLI advances to the next card. Repeat steps 2–3 until all cards are reviewed
    or you type `q` to quit.
-5. At the end of the session, FlashCLI displays the number of cards reviewed.
+5. At the end of the session, FlashCLI displays the number of cards reviewed. Cards count as "reviewed" only after you rate confidence
 
 > **Note:** Your confidence ratings are saved automatically. The next time you study the
 > same deck, cards with lower confidence ratings will appear first.
