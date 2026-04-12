@@ -166,7 +166,7 @@ public class Ui {
      */
     public void showStudyQuestion(String question) {
         System.out.println("Q: " + question);
-        System.out.println("(Press Enter to reveal answer, or type 'q' to quit)");
+        System.out.println("(Press Enter to reveal answer, or type 'q' to quit, any other commands or inputs will not be processed before you quit)");
     }
 
     /**

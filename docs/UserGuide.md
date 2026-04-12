@@ -251,7 +251,7 @@ Format: `study d/DECK_NAME`
   about appear first. Cards that have never been studied (default confidence `0`) always
   appear before any rated card.
 - During a session, only the study session controls listed below are valid. Regular
-  FlashCLI commands (e.g. `addCard`, `listDecks`) cannot be used mid-session.
+  FlashCLI commands (e.g. `addCard`, `listDecks`) cannot be used mid-session. Any inputs followed by Enter will reveal the answer. Users can type out their answers first for self-comparison, but the app does not check correctness.
 
 **Study session controls:**
 
