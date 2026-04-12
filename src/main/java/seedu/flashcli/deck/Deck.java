@@ -90,8 +90,12 @@ public class Deck {
         }
 
         Card card = cardList.get(cardIndex);
-        card.setQuestion(newQuestion);
-        card.setAnswer(newAnswer);
+        if (newQuestion != null){
+            card.setQuestion(newQuestion);
+        }
+        if (newAnswer != null){
+            card.setAnswer(newAnswer);
+        }
         return card;
     }
 
