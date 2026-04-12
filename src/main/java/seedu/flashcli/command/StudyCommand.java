@@ -36,7 +36,7 @@ public class StudyCommand implements Command {
         //boolean showingAnswer = false; // false = next Enter shows answer, true = next Enter advances card
 
         String line;
-        while (!(line = in.nextLine()).equals("q")) {
+        while (!(line = in.nextLine()).trim().equals("q")) {
             // Reveal answer for current card
             Card current = sessionManager.getCurrentCard();
             ui.showStudyAnswer(current.getAnswer());
