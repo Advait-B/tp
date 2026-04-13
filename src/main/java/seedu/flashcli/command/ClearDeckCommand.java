@@ -29,7 +29,7 @@ public class ClearDeckCommand implements Command {
         try {
             ui.clearConfirmationPrompt(deckName);
             String userConfirmation = in.nextLine();
-            if (userConfirmation.equals("yes")) {
+            if (!userConfirmation.equals("yes")) {
                 return false;
             }
             Deck deck = deckManager.getDeck(deckName);
