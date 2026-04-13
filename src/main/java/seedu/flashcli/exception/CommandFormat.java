@@ -1,5 +1,8 @@
 package seedu.flashcli.exception;
 
+/**
+ * Enum mapping to Strings to show user the correct format of their intended command.
+ */
 public enum CommandFormat {
 
     ADD_CARD("Use: addCard d/<deck> q/<question> a/<answer>"),
