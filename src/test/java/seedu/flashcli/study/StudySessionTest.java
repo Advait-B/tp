@@ -16,7 +16,7 @@ public class StudySessionTest {
     private Deck sampleDeck;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws FlashException{
         sampleDeck = new Deck("Java");
         sampleDeck.addCard("Q1", "A1");
         sampleDeck.addCard("Q2", "A2");

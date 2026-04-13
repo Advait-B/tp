@@ -17,7 +17,7 @@ public class SessionManagerTest {
     private Deck sampleDeck;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws FlashException{
         sessionManager = new SessionManager();
         sampleDeck = new Deck("Test");
         sampleDeck.addCard("Q1", "A1");
