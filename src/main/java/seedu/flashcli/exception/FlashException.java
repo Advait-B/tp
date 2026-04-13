@@ -1,6 +1,5 @@
 package seedu.flashcli.exception;
 
-import seedu.flashcli.command.Command;
 
 /**
  * Represents application-specific exceptions thrown by FlashCLI.
