@@ -36,8 +36,7 @@ public class Parser {
         "listdecks", "cleardeck", "deletedeck", "study", "exit", "help"
     };
 
-    private Parser() {
-    }
+    private Parser() {}
 
     /**
      * Parses user input into an executable command.
@@ -202,6 +201,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Returns command unchanged if args is blank, ensuring that
+     * no-argument commands (e.g. listDecks, exit, help)
+     * reject unexpected trailing input.
+     *
+     * @throws FlashException with UNEXPECTED_ARGUMENTS if args is non-blank.
+     */
     private static Command requireEmpty(String args, Command command) throws FlashException {
         assert args != null : "requireEmpty called with null args";
         if (!args.trim().isEmpty()) {
