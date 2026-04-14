@@ -105,7 +105,7 @@ data has been corrupted, FlashCLI will discard it.
         - `addCard d/Maths q/What does a in a:b represent? a/Numerator`
           (use colon notation)
         - `addCard d/Maths q/What does A in A/B represent? a/Numerator`
-          (capitalise the letter — recommended, preserves readability)
+          (capitalise the letter)
     - The same applies to `d/`, `q/`, and `i/` appearing inside field
       values. Consider alternatives such as `d:`, `deck:`, `(d)`, or
       rephrasing.
