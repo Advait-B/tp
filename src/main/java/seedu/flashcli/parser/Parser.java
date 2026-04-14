@@ -46,7 +46,7 @@ public class Parser {
      * @throws FlashException if blank input, unrecognised command or invalid arguments.
      */
     public static Command parse(String userInput) throws FlashException {
-        logger.log(Level.FINE, "parse() called with: \"{0}\"", userInput == null ? "null" : userInput);
+        logger.log(Level.FINE, "parse() called with: \"{0}\"", userInput);
         validateInput(userInput);
         String[] tokens = userInput.split(" ", 2);
         String command = tokens[0].trim().toLowerCase();
@@ -82,6 +82,7 @@ public class Parser {
                 return;
             }
         }
+        logger.log(Level.WARNING, "validateCommandName failed: \"{0}\" is not a recognised command", command);
         throw new FlashException(ErrorType.INVALID_COMMAND);
     }
 
@@ -92,7 +93,7 @@ public class Parser {
      * @throws FlashException If the arguments are invalid.
      */
     private static Command dispatch(String command, String arguments) throws FlashException {
-        assert !command.isEmpty() : "dispatch() received an empty command";
+        assert !command.isEmpty() : "dispatch() received an empty command; validateCommandName should have caught this";
         switch (command) {
         case "addcard":
             return parseAddCardCommand(arguments);
