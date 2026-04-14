@@ -28,6 +28,9 @@ public class Parser {
 
     private static final Logger logger = Logger.getLogger("Parser");
 
+    /**
+     * Exhaustive list of recognised command keywords in lowercase.
+     */
     private static final String[] VALID_COMMANDS = {
         "addcard", "listcards", "deletecard", "createdeck", "editcard",
         "listdecks", "cleardeck", "deletedeck", "study", "exit", "help"
