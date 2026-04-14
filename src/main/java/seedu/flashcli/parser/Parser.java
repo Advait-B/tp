@@ -68,6 +68,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Validates that the command matches one of the entries in VALID_COMMANDS.
+     *
+     * @param command The command to validate.
+     * @throws FlashException If the command is not found in VALID_COMMANDS.
+     */
     private static void validateCommandName(String command) throws FlashException {
         for (String valid : VALID_COMMANDS) {
             if (valid.equals(command)) {
