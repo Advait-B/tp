@@ -162,7 +162,7 @@ listDecks
 
 ### Deleting a deck : `deleteDeck`
 
-Permanently removes the named deck and all its cards.
+Permanently removes the named deck and all its cards. Requires a confirmation message ('yes') from the user to execute. The confirmation message is intentionally case sensitive so that the destructive action is only carried out when the user provides a deliberate and unambiguous input.
 
 **Format:** `deleteDeck d/DECK_NAME`
 
@@ -175,7 +175,7 @@ deleteDeck d/Linear Algebra
 
 ### Clearing a deck : `clearDeck`
 
-Removes all cards from an existing deck without deleting the deck itself.
+Removes all cards from an existing deck without deleting the deck itself. Requires a confirmation message ('yes') from the user to execute. The confirmation message is intentionally case sensitive so that the destructive action is only carried out when the user provides a deliberate and unambiguous input.
 
 **Format:** `clearDeck d/DECK_NAME`
 
