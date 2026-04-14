@@ -8,11 +8,10 @@ import java.util.logging.Logger;
 
 /**
  * Performs all prefix-based argument validation and extraction for the parser package.
- * - Validates that required prefixes are present and appear exactly once.
- * - Validates that prefixes appear in the correct left-to-right order.
- * - Extracts values from the argument string.
- * - Returns typed args objects to Parser.
- *
+ * Validates that required prefixes are present and appear exactly once.
+ * Validates that prefixes appear in the correct left-to-right order.
+ * Extracts values from the argument string.
+ * Returns typed args objects to Parser.
  */
 public class ArgumentExtractor {
 
@@ -25,9 +24,7 @@ public class ArgumentExtractor {
     private static final String INDEX_PREFIX = "i/";
     private static final int PREFIX_LEN = 2;
 
-    private ArgumentExtractor() {
-
-    }
+    private ArgumentExtractor() {}
 
     /**
      * Parses the argument string for any command requiring only a deck name.
@@ -48,7 +45,7 @@ public class ArgumentExtractor {
      * Parses the argument string for the addCard command.
      * Expects d/, q/, and a/ in that order.
      *
-     * @return addCardArgs containing deck name, question, and answer.
+     * @return AddCardArgs containing deck name, question, and answer.
      * @throws FlashException If any prefix or extracted value issue detected.
      */
     public static AddCardArgs parseAddCardArgs(String arguments) throws FlashException {
@@ -152,7 +149,7 @@ public class ArgumentExtractor {
      * Converts a one-based index string from the user into a zero-based integer.
      *
      * @return Zero-based integer index.
-     * @throws FlashException If indexStr cannot be parsed as an integer.
+     * @throws FlashException if index is not a valid, positive integer greater than 1.
      */
     private static int parseIndex(String indexStr) throws FlashException {
         try {
@@ -219,7 +216,7 @@ public class ArgumentExtractor {
      * @throws FlashException If value is null or empty.
      */
     private static void validateNonEmpty(String value, ErrorType errorType) throws FlashException {
-        if (value.isEmpty()) {
+        if (value == null || value.isEmpty()) {
             logger.log(Level.WARNING, "validateNonEmpty failed for ErrorType: {0}", errorType);
             throw new FlashException(errorType);
         }
@@ -249,7 +246,7 @@ public class ArgumentExtractor {
     }
 
     /**
-     * Extracts and trims the substring from endPrefix till the end of the string.
+     * Extracts and trims the substring from prefix till the end of the string.
      */
     private static String extractAfter(String arguments, String prefix) {
         int start = arguments.indexOf(prefix) + PREFIX_LEN;
