@@ -8,11 +8,10 @@ import java.util.logging.Logger;
 
 /**
  * Performs all prefix-based argument validation and extraction for the parser package.
- * - Validates that required prefixes are present and appear exactly once.
- * - Validates that prefixes appear in the correct left-to-right order.
- * - Extracts values from the argument string.
- * - Returns typed args objects to Parser.
- *
+ * Validates that required prefixes are present and appear exactly once.
+ * Validates that prefixes appear in the correct left-to-right order.
+ * Extracts values from the argument string.
+ * Returns typed args objects to Parser.
  */
 public class ArgumentExtractor {
 
