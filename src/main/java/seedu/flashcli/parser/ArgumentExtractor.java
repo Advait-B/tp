@@ -24,9 +24,7 @@ public class ArgumentExtractor {
     private static final String INDEX_PREFIX = "i/";
     private static final int PREFIX_LEN = 2;
 
-    private ArgumentExtractor() {
-
-    }
+    private ArgumentExtractor() {}
 
     /**
      * Parses the argument string for any command requiring only a deck name.
@@ -47,7 +45,7 @@ public class ArgumentExtractor {
      * Parses the argument string for the addCard command.
      * Expects d/, q/, and a/ in that order.
      *
-     * @return addCardArgs containing deck name, question, and answer.
+     * @return AddCardArgs containing deck name, question, and answer.
      * @throws FlashException If any prefix or extracted value issue detected.
      */
     public static AddCardArgs parseAddCardArgs(String arguments) throws FlashException {
@@ -151,7 +149,7 @@ public class ArgumentExtractor {
      * Converts a one-based index string from the user into a zero-based integer.
      *
      * @return Zero-based integer index.
-     * @throws FlashException If indexStr cannot be parsed as an integer.
+     * @throws FlashException if index is not a valid, positive integer greater than 1.
      */
     private static int parseIndex(String indexStr) throws FlashException {
         try {
