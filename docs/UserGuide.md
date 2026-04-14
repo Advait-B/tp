@@ -81,14 +81,20 @@ data has been corrupted, FlashCLI will discard it.
 
 - Commands are not case-sensitive. For example, `addCard` and `addcard`
   are treated the same.
-- Prefixes are case-sensitive. Type them exactly as shown: `d/`, `q/`,
-  `a/`, and `i/`.
+- Deck names are case-sensitive. `createDeck d/Maths` and `createDeck d/maths`
+  create two distinct decks. Use consistent capitalisation when referencing
+  a deck across commands.
+- Prefixes are case-sensitive. Only the lowercase forms `d/`, `q/`, `a/`, and `i/`
+  are reserved. Uppercase variants such as `D/`, `Q/`, `A/`, `I/` are treated as
+  ordinary text and may appear freely in deck names, questions, and answers.
 - Prefixes must have no space between the letter and slash. `q/` is
-  valid; `q /` will not be recognised and will be rejected.
-- Reserved prefixes (`d/`, `q/`, `a/`, `i/`) cannot appear anywhere in
-  field values - including deck names, questions, and answers. Any input
-  containing a reserved prefix outside of its intended position will be
-  rejected. For example:
+  valid; `q /` will not be recognised as a prefix.
+- Only the prefixes required by a given command are reserved within that command's
+  input, and each reserved prefix must appear exactly once.
+- A prefix reserved by the current command cannot appear in any field value.
+  For example, in `addCard`, the prefixes `d/`, `q/`, and `a/` are reserved —
+  so `a/b` inside a question will be rejected. The prefix `i/` is not reserved
+  for `addCard` and may appear freely. For example:
     - `addCard d/Maths q/What does a in a/b represent? a/Numerator`
       will be rejected, as `a/b` contains a reserved prefix.
     - The following are accepted alternatives:
@@ -98,6 +104,8 @@ data has been corrupted, FlashCLI will discard it.
           (use a backslash)
         - `addCard d/Maths q/What does a in a:b represent? a/Numerator`
           (use colon notation)
+        - `addCard d/Maths q/What does A in A/B represent? a/Numerator`
+          (capitalise the letter)
     - The same applies to `d/`, `q/`, and `i/` appearing inside field
       values. Consider alternatives such as `d:`, `deck:`, `(d)`, or
       rephrasing.
