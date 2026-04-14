@@ -3,6 +3,7 @@ package seedu.flashcli.command;
 import java.util.Scanner;
 
 import seedu.flashcli.deck.DeckManager;
+import seedu.flashcli.exception.CommandFormat;
 import seedu.flashcli.exception.FlashException;
 import seedu.flashcli.ui.Ui;
 
@@ -31,8 +32,17 @@ public class DeleteDeckCommand implements Command {
      */
     @Override
     public boolean execute(DeckManager deckManager, Ui ui, Scanner in) throws FlashException {
-        deckManager.deleteDeck(deckName);
-        ui.showDeckDeleted(deckName);
+        try {
+            ui.deleteConfirmationPrompt(deckName);
+            String userConfirmation = in.nextLine();
+            if (!userConfirmation.equals("yes")) {
+                return false;
+            }
+            deckManager.deleteDeck(deckName);
+            ui.showDeckDeleted(deckName);
+        } catch (FlashException e) {
+            throw new FlashException(e, CommandFormat.DELETE_DECK);
+        }
         return false;
     }
 }
