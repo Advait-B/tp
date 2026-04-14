@@ -84,8 +84,9 @@ data has been corrupted, FlashCLI will discard it.
 - Deck names are case-sensitive. `createDeck d/Maths` and `createDeck d/maths`
   create two distinct decks. Use consistent capitalisation when referencing
   a deck across commands.
-- Prefixes are case-sensitive. Type them exactly as shown: `d/`, `q/`,
-  `a/`, and `i/`.
+- Prefixes are case-sensitive. Only the lowercase forms `d/`, `q/`, `a/`, and `i/`
+  are reserved. Uppercase variants such as `D/`, `Q/`, `A/`, `I/` are treated as
+  ordinary text and may appear freely in deck names, questions, and answers.
 - Prefixes must have no space between the letter and slash. `q/` is
   valid; `q /` will not be recognised and will be rejected.
 - Reserved prefixes (`d/`, `q/`, `a/`, `i/`) cannot appear anywhere in
