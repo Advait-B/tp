@@ -216,7 +216,7 @@ public class ArgumentExtractor {
      * @throws FlashException If value is null or empty.
      */
     private static void validateNonEmpty(String value, ErrorType errorType) throws FlashException {
-        if (value.isEmpty()) {
+        if (value == null || value.isEmpty()) {
             logger.log(Level.WARNING, "validateNonEmpty failed for ErrorType: {0}", errorType);
             throw new FlashException(errorType);
         }
@@ -246,7 +246,7 @@ public class ArgumentExtractor {
     }
 
     /**
-     * Extracts and trims the substring from endPrefix till the end of the string.
+     * Extracts and trims the substring from prefix till the end of the string.
      */
     private static String extractAfter(String arguments, String prefix) {
         int start = arguments.indexOf(prefix) + PREFIX_LEN;
